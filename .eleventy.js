@@ -3,25 +3,25 @@ const markdownIt = require("markdown-it");
 const markdownItAttrs = require("markdown-it-attrs");
 
 module.exports = function(eleventyConfig) {
-  
-  eleventyConfig.addNunjucksFilter("formatDate", (dateString) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    if (isNaN(date)) return "";
-    return date.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
+ 
+// i like my 11ty being nice to me
+  eleventyConfig.on("beforeBuild", () => {
+    console.log("⏳ Build starting...");
   });
 
-  const md = markdownIt({
-    html: true,
-    breaks: true,
-    linkify: true,
-    typographer: true
-  }).use(markdownItAttrs);
 
-// adjust markdown so *this* makes <i>this</i>
+  ///////////////////////////////// MARKDOWN CONFIG /////////////////////////////////
+  const md = markdownIt({
+    html: true, // allows html in md files
+    breaks: true, 
+    linkify: true, // turns pasted links into clickable links
+    typographer: true // changes stuff like -- to –
+  }).use(markdownItAttrs); // adds markdown attributes plugin used below to adjust shit
+
+// adjust markdown so *this* makes <i>this</i> so its not emphasised on screenreaders but only visually italics
   md.renderer.rules.em_open = () => '<i>';
   md.renderer.rules.em_close = () => '</i>';
-// adjust markdown so **this** makes <b>this</b>
+// adjust markdown so **this** makes <b>this</b> so its not emphasised on screenreaders but only visually bold
   md.renderer.rules.strong_open = () => '<b>';
   md.renderer.rules.strong_close = () => '</b>';
 
@@ -40,8 +40,22 @@ module.exports = function(eleventyConfig) {
     });
   });
 
+  // tells 11ty to use my markdownit config
   eleventyConfig.setLibrary("md", md);
 
+  ///////////////////////////////// REST OF CONFIG /////////////////////////////////
+
+  //formats dates to be nicey
+  eleventyConfig.addNunjucksFilter("formatDate", (dateString) => {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  if (isNaN(date)) return "";
+  return date.toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
+});
+
+
+  // stop the default behaviour of foo.html being turned into foo/index.html 
+  // however can go back to the original behaviour if you have permalinkStyle: default in frontmatter
   eleventyConfig.addGlobalData("eleventyComputed", {
     permalink: (data) => {
       if (data?.permalinkStyle === "default") return;
@@ -49,26 +63,25 @@ module.exports = function(eleventyConfig) {
     }
   });  
 
+  // copy over site assets to public folder
   eleventyConfig.addPassthroughCopy("./src/assets/");
   eleventyConfig.addPassthroughCopy("./src/css/");
 
+  // uses collections api to get all pages on your site, this is used to spit out site map
+  eleventyConfig.addCollection("allPages", function(collectionApi) {
+    return collectionApi.getAll().filter(page => {
+      return !page.url.startsWith("/assets/js/") && !blockedPages.includes(page.url);
+    });
+  });
+
+  // blocked pages I do not want to appear in sitemap
   const blockedPages = [
     "/random",
     "/home",
     "/sitemap"
   ];
 
-  eleventyConfig.addCollection("allPages", function(collectionApi) {
-    return collectionApi.getAll().filter(page => {
-      return !page.url.startsWith("/assets/js/") && !blockedPages.includes(page.url);
-    });
-  });
-  
-
-  eleventyConfig.on("beforeBuild", () => {
-    console.log("⏳ Build starting...");
-  });
-
+  // i like my 11ty being nice to me
   eleventyConfig.on("afterBuild", () => {
     console.log("✅ Build complete. Have a nice day!");
   });
@@ -78,5 +91,6 @@ module.exports = function(eleventyConfig) {
       input: "src",
       output: "docs.layercake.moe",
     },
+    markdownTemplateEngine: "njk", // basically lets me use njk template stuff in markdown
   };
 };

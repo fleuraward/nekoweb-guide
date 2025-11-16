@@ -39,14 +39,14 @@ well as my resource website for some coding snippets!
   <link rel="icon" type="image/x-icon" href="/assets/images/index/favicake.ico">
   <link rel="shortcut icon" href="/assets/images/index/favicake.ico" type="image/x-icon">
 
-  <!-- METADATA 
-  <meta content="summary_large_image" name="twitter:card">
-  <meta content="{{title}}" property="og:title">
-  <meta content="{{description}}" property="og:description">
-  <meta content="https://layercake.nekoweb.org{{linkend}}" property="og:url">
-  <meta content="website" property="og:type">
-  <meta content="/assets/images/misc/largecard.png" property="twitter:image">
-  <meta name="theme-color" content="#b0e4ee"> -->
+  <!-- METADATA -->
+  <meta content="" property="og:title">
+  <meta name="theme-color" content="#ffbcb1">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Nekoweb Documentation">
+  <meta property="og:url" content="https://guide.nekoweb.org{{page.filePathStem}}">
+  <meta property="og:title" content="Nekoweb for Webdevs">
+  <meta property="og:description" content="Learn HTML and CSS, Build a site, Share your creation.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -85,20 +85,7 @@ function myFunction() {
 
 <div class="mainfl">
 <div id="togglenav">
-<nav>
-  <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="/getting-around">Getting Around</a></li>
-        <li><a href="/html-basics">HTML Basics</a></li> <!-- basic layout, the starting stuff, the basic html tags, semantic html-->
-        <li><a href="/css-basics">CSS Basics</a></li> <!-- difference between style="" internal and ezternal, css selectors and stuff -->
-        <li><a href="/layouting">Layouting</a></li> <!-- flex, grid, etc, dont use tables since serve semantic purpose etc . resposniveness-->
-        <li><a href="/accessibility">Accessibility</a></li> <!-- color contrast and alt text -->
-        <li><a href="/responsiveness">Resposniveness</a></li> <!-- Meta viewport tags -->
-        <br>
-        <li><a href="/">Credits</a></li>
-        <li><a href="/">Creator</a></li>
-    </ul>
-</nav>
+      {% include 'partial/navigation.njk'%}
   
   <div class="mobileafternav">.</div>
 </div>

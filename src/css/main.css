@@ -83,7 +83,11 @@ h2 {
 
 p {
   text-wrap: pretty;
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
 }
+
 
 h1, h2, h3, h4, h5, h6,
 .fakeh1, .fakeh2, .fakeh3 {
@@ -256,6 +260,11 @@ main {
 .main-pad-toggle, .main-pad { padding: 10px 10px 10px 30px; }
 
 .mobileafternav { display: none;}
+
+.lastupd {
+    color: var(--cookie)
+}
+
 @media only screen and (max-width: 920px) {   
 #togglenav { display:none}
 #togglenav.show { display: block;}
