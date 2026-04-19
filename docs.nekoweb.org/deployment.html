@@ -40,6 +40,7 @@ o.             ..,:ldxOKXNNWMMMMMMMMMMMMMMMMMMMMMM
   <title>Nekoweb Docs | Deployment </title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/prism-gruvbox-light.css" />
   <meta name="darkreader-lock" content="">
 
   <!-- FAVICON -->
@@ -163,36 +164,35 @@ package-lock.json
 └── package-lock.json
 </code></pre>
 <p>Inside of your new YAML file add this:</p>
-<pre><code class="language-yml">name: Build and Deploy to Nekoweb
+<pre class="language-yml"><code class="language-yml"><span class="token key atrule">name</span><span class="token punctuation">:</span> Build and Deploy to Nekoweb
 
-on:
-  push:
-    branches: [&quot;main&quot;]
+<span class="token key atrule">on</span><span class="token punctuation">:</span>
+  <span class="token key atrule">push</span><span class="token punctuation">:</span>
+    <span class="token key atrule">branches</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"main"</span><span class="token punctuation">]</span>
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+<span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+  <span class="token key atrule">build</span><span class="token punctuation">:</span>
+    <span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span>latest
 
-    steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
+    <span class="token key atrule">steps</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Checkout code
+          <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v4
 
-        - uses: actions/setup-node@v3
-          with:
-            node-version: 20.x
+        <span class="token punctuation">-</span> <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/setup<span class="token punctuation">-</span>node@v3
+          <span class="token key atrule">with</span><span class="token punctuation">:</span>
+            <span class="token key atrule">node-version</span><span class="token punctuation">:</span> 20.x
 
-        - run: npm install
+        <span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> npm install
 
-        - run: npx @11ty/eleventy
+        <span class="token punctuation">-</span> <span class="token key atrule">run</span><span class="token punctuation">:</span> npx @11ty/eleventy
 
-        - name: Deploy to NekoWeb
-          uses: indiefellas/deploy2nekoweb@main
-          with:
-            nekoweb-api-key: ${{ secrets.NEKOWEB_API_KEY }}
-            nekoweb-domain: 'sitename.nekoweb.org'
-            nekoweb-username: 'sitename'
-            directory: 'youroutputfolder'
-</code></pre>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Deploy to NekoWeb
+          <span class="token key atrule">uses</span><span class="token punctuation">:</span> indiefellas/deploy2nekoweb@main
+          <span class="token key atrule">with</span><span class="token punctuation">:</span>
+            <span class="token key atrule">nekoweb-api-key</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.NEKOWEB_API_KEY <span class="token punctuation">}</span><span class="token punctuation">}</span>
+            <span class="token key atrule">nekoweb-domain</span><span class="token punctuation">:</span> <span class="token string">'sitename.nekoweb.org'</span>
+            <span class="token key atrule">nekoweb-username</span><span class="token punctuation">:</span> <span class="token string">'sitename'</span>
+            <span class="token key atrule">directory</span><span class="token punctuation">:</span> <span class="token string">'youroutputfolder'</span></code></pre>
 <p>If the default branch that you're committing to isn't called main (it probably will be if you followed this guide word for word) then you'll need to change that line accordingly. Otherwise all you need to do is fill in the last three lines. For nekoweb-domain it's whatever you domain is, if you have a custom domain write that, if not use your nekoweb.org domain. For nekoweb-username it's just your username on Nekoweb whether you have a custom domain or not. The directory is whatever folder you set as your output in your .eleventy.js, for me it's _site. Now, go into Github, go to your repository, click &quot;Settings&quot;, look at the settings sidebar and click &quot;Secrets and variables&quot;, click &quot;Actions&quot; and then create a &quot;New repository secret&quot;. Set this secret's name as NEKOWEB_API_KEY, and put the API key you got from the Nekoweb API page.</p>
 <p>However, before creating your first commit to your Github repository it's important to note that this Github workflow first deletes everything inside the folder it's uploading into. This means if you have something like an elements.css file you'd like to keep, you're going to want to add it somewhere in your Eleventy site and add a passthrough copy in your .eleventy.js's export function to send it to the output. I just put my elements.css inside of the already made CSS folder so it's passed through with the rest of the CSS files.</p>
 </details>
@@ -208,28 +208,27 @@ jobs:
 └── sitename.nekoweb.org
 </code></pre>
 <p>Inside of your new YAML file add this:</p>
-<pre><code class="language-yml">name: Deploy to Nekoweb
+<pre class="language-yml"><code class="language-yml"><span class="token key atrule">name</span><span class="token punctuation">:</span> Deploy to Nekoweb
 
-on:
-  push:
-    branches: [&quot;main&quot;]
+<span class="token key atrule">on</span><span class="token punctuation">:</span>
+  <span class="token key atrule">push</span><span class="token punctuation">:</span>
+    <span class="token key atrule">branches</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"main"</span><span class="token punctuation">]</span>
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+<span class="token key atrule">jobs</span><span class="token punctuation">:</span>
+  <span class="token key atrule">build</span><span class="token punctuation">:</span>
+    <span class="token key atrule">runs-on</span><span class="token punctuation">:</span> ubuntu<span class="token punctuation">-</span>latest
 
-    steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
+    <span class="token key atrule">steps</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Checkout code
+          <span class="token key atrule">uses</span><span class="token punctuation">:</span> actions/checkout@v4
 
-        - name: Deploy to NekoWeb
-          uses: indiefellas/deploy2nekoweb@main
-          with:
-            nekoweb-api-key: ${{ secrets.NEKOWEB_API_KEY }}
-            nekoweb-domain: 'sitename.nekoweb.org'
-            nekoweb-username: 'sitename'
-            directory: 'sitename.nekoweb.org'
-</code></pre>
+        <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> Deploy to NekoWeb
+          <span class="token key atrule">uses</span><span class="token punctuation">:</span> indiefellas/deploy2nekoweb@main
+          <span class="token key atrule">with</span><span class="token punctuation">:</span>
+            <span class="token key atrule">nekoweb-api-key</span><span class="token punctuation">:</span> $<span class="token punctuation">{</span><span class="token punctuation">{</span> secrets.NEKOWEB_API_KEY <span class="token punctuation">}</span><span class="token punctuation">}</span>
+            <span class="token key atrule">nekoweb-domain</span><span class="token punctuation">:</span> <span class="token string">'sitename.nekoweb.org'</span>
+            <span class="token key atrule">nekoweb-username</span><span class="token punctuation">:</span> <span class="token string">'sitename'</span>
+            <span class="token key atrule">directory</span><span class="token punctuation">:</span> <span class="token string">'sitename.nekoweb.org'</span></code></pre>
 <p>If the default branch that you're committing to isn't called main (it probably will be if you followed this guide word for word) then you'll need to change line 5 accordingly. Otherwise all you need to do is fill in the last three lines. For nekoweb-domain it's whatever you domain is, if you have a custom domain write that, if not use your nekoweb.org domain. For nekoweb-username it's just your username on Nekoweb whether you have a custom domain or not. The directory is whatever you named the folder containing your site values. Now, go into Github, go to your repository, click &quot;Settings&quot;, look at the settings sidebar and click &quot;Secrets and variables&quot;, click &quot;Actions&quot; and then create a &quot;New repository secret&quot;. Set this secret's name as NEKOWEB_API_KEY, and put the API key you got from the Nekoweb API page.</p>
 <p>However, before creating your first commit to your Github repository it's important to note that this Github workflow first deletes everything inside the folder it's uploading into. This means if you have something like an elements.css file you'd like to keep, you're going to want to add it somewhere in your site folder.</p>
 </details>
@@ -242,11 +241,10 @@ jobs:
 <pre><code>&gt; npm install @indiefellas/nekoweb-api adm-zip @types/adm-zip
 </code></pre>
 <p>After that, create a <code>deploy.json</code> file on the root of the project (the folder that contains your <code>.eleventy.js</code> file), and add this content:</p>
-<pre><code class="language-json">{
-  &quot;nekowebApiKey&quot;: &quot;YOUR_NEKOWEB_API_KEY&quot;,
-  &quot;nekowebFolder&quot;: &quot;/example.nekoweb.org&quot;
-}
-</code></pre>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+  <span class="token property">"nekowebApiKey"</span><span class="token operator">:</span> <span class="token string">"YOUR_NEKOWEB_API_KEY"</span><span class="token punctuation">,</span>
+  <span class="token property">"nekowebFolder"</span><span class="token operator">:</span> <span class="token string">"/example.nekoweb.org"</span>
+<span class="token punctuation">}</span></code></pre>
 <p>Edit <code>YOUR_NEKOWEB_API_KEY</code> to the API key provided by the Nekoweb API page and <code>/example.nekoweb.org</code> to your site's domain folder.</p>
 <blockquote>
 <p>Note: If you have tracked your site to git, add <code>deploy.json</code> to <code>.gitignore</code> to prevent it from being tracked by Git and exposing your Nekoweb API key. If you accidentally commited it, regenerate a new API key.</p>
@@ -322,18 +320,15 @@ module.exports = deploySite;
 </code></pre>
 </details>
 <p>After that, let's go to your <code>.eleventy.js</code> file and we add this on the config, above the file:</p>
-<pre><code class="language-js">import deploySite from &quot;./deploy.js&quot;;
-</code></pre>
+<pre class="language-js"><code class="language-js"><span class="token keyword">import</span> deploySite <span class="token keyword">from</span> <span class="token string">"./deploy.js"</span><span class="token punctuation">;</span></code></pre>
 <p>or if you're using CommonJS,</p>
-<pre><code class="language-js">const deploySite = require(&quot;./deploy.js&quot;)
-</code></pre>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> deploySite <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"./deploy.js"</span><span class="token punctuation">)</span></code></pre>
 <p>and this inside your eleventyConfig function:</p>
-<pre><code class="language-js">eleventyConfig.on('eleventy.after', async ({ runMode, dir, results }) =&gt; {
-  if (runMode === 'build' &amp;&amp; results &amp;&amp; results.length &gt; 0) {
-    await deploySite(dir.output)
-  }
-})
-</code></pre>
+<pre class="language-js"><code class="language-js">eleventyConfig<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'eleventy.after'</span><span class="token punctuation">,</span> <span class="token keyword">async</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> runMode<span class="token punctuation">,</span> dir<span class="token punctuation">,</span> results <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>runMode <span class="token operator">===</span> <span class="token string">'build'</span> <span class="token operator">&amp;&amp;</span> results <span class="token operator">&amp;&amp;</span> results<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">await</span> <span class="token function">deploySite</span><span class="token punctuation">(</span>dir<span class="token punctuation">.</span>output<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
 <p>Now, run <code>npm run build</code>, and it should build your site!</p>
 
 </main>

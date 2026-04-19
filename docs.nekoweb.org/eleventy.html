@@ -40,6 +40,7 @@ o.             ..,:ldxOKXNNWMMMMMMMMMMMMMMMMMMMMMM
   <title>Nekoweb Docs | Eleventy </title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/prism-gruvbox-light.css" />
   <meta name="darkreader-lock" content="">
 
   <!-- FAVICON -->
@@ -134,42 +135,39 @@ function myFunction() {
 <h2 id="creating-a-basic-site-with-eleventy" tabindex="-1">Creating a basic site with Eleventy</h2>
 <p>Firstly, to ensure everything is working you can create an index.md file (could also be HTML/Nunjucks file, this is just personal preference) in the root of your project. Eleventy has out of the box markdown support so all you need to do in here is write something. Then with a terminal with a working directory inside of your project's root run <code>npx @11ty/eleventy --serve</code>.</p>
 <p>Something along the lines of the following output should be produced:</p>
-<pre><code class="language-bash">[11ty] Writing ./_site/index.html from ./index.md (liquid)
-[11ty] Wrote 1 file in 0.15 seconds (v3.1.2)
-[11ty] Watching…
-[11ty] Server at http://localhost:8080/
-</code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="token punctuation">[</span>11ty<span class="token punctuation">]</span> Writing ./_site/index.html from ./index.md <span class="token punctuation">(</span>liquid<span class="token punctuation">)</span>
+<span class="token punctuation">[</span>11ty<span class="token punctuation">]</span> Wrote <span class="token number">1</span> <span class="token function">file</span> <span class="token keyword">in</span> <span class="token number">0.15</span> seconds <span class="token punctuation">(</span>v3.1.2<span class="token punctuation">)</span>
+<span class="token punctuation">[</span>11ty<span class="token punctuation">]</span> Watching…
+<span class="token punctuation">[</span>11ty<span class="token punctuation">]</span> Server at http://localhost:8080/</code></pre>
 <p>The first part of this command, <code>npx @11ty/eleventy</code> is building your site and then the flag <code>serve</code> added onto it is creating a <span class="help" title="A server that runs on your computer and allows you to test your website as it would behave on a public server like Nekoweb">local web server</span> to easily view it. If you open the server's URL in your browser you should see whatever you wrote in your index file displayed. The default behaviour is to watch for any changes (e.g. when a file is saved) and rebuild your site after such a change, so the web server it creates should always be up to date (though it has some issues mentioned later). If localhost:8080 is correctly displaying your index.md file we can continue. Do CTRL + C in your terminal to stop Eleventy from running.</p>
 <p>Create a file named (exactly) <span class="help" title="You can also call it eleventy.config.js and it'll act the same">.eleventy.js</span>. This will be the most important file in your Eleventy project. If you don't quite understand JS just yet, don't worry. This guide won't be getting into anything too complex and I'll be including code examples, however if you'd like to be able to use everything Eleventy has to offer (like <span class="help" title="Used to transform values during build with JS">custom filters</span>) you're going to need to learn it at some point. Inside of your new .eleventy.js file include the following code:</p>
-<pre><code class="language-js">module.exports = function(eleventyConfig) {
-    return {
-        dir: {
-            input: &quot;src&quot;,
-            output: &quot;_site&quot;
-        }
-    };
-};
-</code></pre>
+<pre class="language-js"><code class="language-js">module<span class="token punctuation">.</span><span class="token function-variable function">exports</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">eleventyConfig</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        <span class="token literal-property property">dir</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">input</span><span class="token operator">:</span> <span class="token string">"src"</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">output</span><span class="token operator">:</span> <span class="token string">"_site"</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
 <p>This is setting an input folder of the name src and an output folder of the name _site (which is the default). Technically, you could leave the input folder as the root but I find that ends up messy and is generally advised against. If you choose to set src as your input (as I'll assume you've done moving forward), you'll need to create a folder named src or you'll get an error. Unless you put your index.md inside that folder, Eleventy will no longer be able to find it and this goes for every new file unless specified otherwise. Both input and output folders can really be anything, but common names for input are &quot;src&quot; and &quot;content&quot; and common names for output are &quot;_site&quot; and &quot;dist&quot;. You may even want to change your output to your site's name if you just want to be upload everything at once from the root of your Nekoweb dashboard.</p>
 <h2 id="using-layouts-with-eleventy" tabindex="-1">Using layouts with Eleventy</h2>
 <p>Layouts allow you stitch parts of your site (navbars, footers, headers, etc) onto content in order to create new stuff quickly without worrying about things like your navbar staying consistent between pages. The templating language I prefer is Nunjucks but using Eleventy leaves you in no way <a href="https://www.11ty.dev/docs/languages/">starved for choice</a>. I've only ever used Nunjucks, however, so I don't know whether some parts of this guide will work for anyone using another template language, so bare that in mind. Create a folder named <span class="help" title='This is just the default name, you can change it putting includes: "INCLUDES_FOLDER_NAME" inside dir in your .eleventy.js file.'>_includes</span> inside your previously created src folder and inside the _includes folder, create a file named base.njk. Before editing this, if you're using VS Code I highly recommend downloading the <a href="https://marketplace.visualstudio.com/items?itemName=eseom.nunjucks-template">Nunjucks Template</a> extension. It provides code snippets and syntax highlighting, though it's completely optional. Nunjucks is basically HTML with some fancy things like variables, for loops and if statements you'd find in a real programming language that make it useful for our purposes. I won't go over everything Nunjucks specific here, so if you'd like to learn more I recommend giving the <a href="https://mozilla.github.io/nunjucks/templating.html">Nunjucks Docs</a> a read. Now, open your base.njk.</p>
 <p>When setting up a base layout like this, I generally set it up mostly like one would a normal HTML page. For this guide this is my base.njk layout:</p>
-<pre><code class="language-njk">&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-    &lt;title&gt;{{title or &quot;My website&quot;}}&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;nav&gt;
-        &lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;
-        &lt;a href=&quot;/blog&quot;&gt;Blog&lt;/a&gt;
-    &lt;/nav&gt;
-        {{ content | safe }}
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+<pre class="language-njk"><code class="language-njk"><span class="token operator">&lt;</span>!<span class="token variable">DOCTYPE</span> <span class="token variable">html</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token variable">html</span> <span class="token variable">lang</span><span class="token operator">=</span><span class="token string">"en"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token variable">head</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token variable">meta</span> <span class="token variable">charset</span><span class="token operator">=</span><span class="token string">"UTF-8"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token variable">meta</span> <span class="token variable">name</span><span class="token operator">=</span><span class="token string">"viewport"</span> <span class="token variable">content</span><span class="token operator">=</span><span class="token string">"width=device-width, initial-scale=1.0"</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token variable">title</span><span class="token operator">></span><span class="token punctuation">{</span><span class="token punctuation">{</span><span class="token variable">title</span> <span class="token keyword">or</span> <span class="token string">"My website"</span><span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">title</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">head</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token variable">body</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token variable">nav</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token variable">a</span> <span class="token variable">href</span><span class="token operator">=</span><span class="token string">"/"</span><span class="token operator">></span><span class="token variable">Home</span><span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">a</span><span class="token operator">></span>
+        <span class="token operator">&lt;</span><span class="token variable">a</span> <span class="token variable">href</span><span class="token operator">=</span><span class="token string">"/blog"</span><span class="token operator">></span><span class="token variable">Blog</span><span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">a</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">nav</span><span class="token operator">></span>
+        <span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token variable">content</span> <span class="token operator">|</span> <span class="token variable">safe</span> <span class="token punctuation">}</span><span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">body</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">html</span><span class="token operator">></span></code></pre>
 <p>The Eleventy specific changes here are <code>{{title or &quot;My website&quot;}}</code> and <code>{{ content | safe }}</code>.</p>
 <p>In Nunjucks two curly brackets indicate a variable. The first part is trying to find a &quot;title&quot; variable and if it can't, the title will fall back to &quot;My website&quot;. It's doing this using the Nunjucks logical operator &quot;or&quot; which checks the left operand first and if it doesn't exist (returns false) it will use the right operand instead. The second part is looking for page content and injecting it into the layout. In Nunjucks the pipe (|) (which isn't an uppercase i) denotes a filter. In this layout we are using the safe filter. Without it, by default, instead of rendering your content properly, it will escape the HTML and your content will display with their tags/attributes converted as seen below:</p>
 <p><img src="/assets/eleventy/safe.png" alt="safe vs no safe side-by-side"></p>
@@ -182,60 +180,54 @@ layout: base.njk
 <p>If the three dashes aren't on the first line it will break. This is one way to define data in Eleventy. Title isn't a built-in piece of data, we created it ourselves and when our site is generated our base.njk layout will look for it and display it in the title if it finds it. Layout, however, is built-in and automatically searches inside the _includes folder, unless you changed the includes folder in your .eleventy.js file. You can <a href="https://www.11ty.dev/docs/data-configuration/">click here</a> to view all Eleventy built-in data keys and their functions.</p>
 <h2 id="assets-and-external-stylesheets" tabindex="-1">Assets and external stylesheets</h2>
 <p>In Eleventy, if you were to do the usual method of linking a stylesheet or displaying an image you'd find your file can't be found, even if the file seems to be there on your end. The solution to this is rather simple. First make two folders in your src folder, one for your css and the other for your assets (images, fonts, etc). Go into your .eleventy.js file and add these lines somewhere inside the <code>module.exports = function(eleventyConfig)</code>'s curly brackets:</p>
-<pre><code class="language-js">eleventyConfig.addPassthroughCopy(&quot;src/css/*&quot;);
-eleventyConfig.addPassthroughCopy(&quot;src/assets/*&quot;);
-</code></pre>
+<pre class="language-js"><code class="language-js">eleventyConfig<span class="token punctuation">.</span><span class="token function">addPassthroughCopy</span><span class="token punctuation">(</span><span class="token string">"src/css/*"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+eleventyConfig<span class="token punctuation">.</span><span class="token function">addPassthroughCopy</span><span class="token punctuation">(</span><span class="token string">"src/assets/*"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>This is ~what your .eleventy.js would look like now if you're confused:</p>
-<pre><code class="language-js">module.exports = function(eleventyConfig) {
-    eleventyConfig.addPassthroughCopy(&quot;src/css/*.css&quot;);
-    eleventyConfig.addPassthroughCopy(&quot;src/assets/*&quot;);
+<pre class="language-js"><code class="language-js">module<span class="token punctuation">.</span><span class="token function-variable function">exports</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">eleventyConfig</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    eleventyConfig<span class="token punctuation">.</span><span class="token function">addPassthroughCopy</span><span class="token punctuation">(</span><span class="token string">"src/css/*.css"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    eleventyConfig<span class="token punctuation">.</span><span class="token function">addPassthroughCopy</span><span class="token punctuation">(</span><span class="token string">"src/assets/*"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    return {
-        dir: {
-            input: &quot;src&quot;,
-            output: &quot;_site&quot;
-        }
-    };
-};
-</code></pre>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        <span class="token literal-property property">dir</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">input</span><span class="token operator">:</span> <span class="token string">"src"</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">output</span><span class="token operator">:</span> <span class="token string">"_site"</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
 <p>This change will make Eleventy look inside of these folders and any .css file it finds inside your CSS folder will be available in your built site, the same will be applied to any file in the assets folder. This will NOT search subfolders. If you want that behaviour you'll need to use a glob pattern like so: <code>eleventyConfig.addPassthroughCopy(&quot;src/css/**/*.css&quot;);</code>. If you want to access these images don't link to the src folder, the passthrough copies will be in the root of your built version of your site. E.g. for an image do <code>src=&quot;/assets/image.png&quot;</code> not <code>src=&quot;/src/assets/image.png&quot;</code>.</p>
 <h2 id="partials%2Fcomponents" tabindex="-1">Partials/components</h2>
 <p>I'll be referring to partials/components as just partials here, but the name can change depending on who you're talking to, likely because they're quite similar to Astro's components. Partials allow you to further break up components of your site and can be important if you want to maintain consistency between layouts while not using the somewhat janky method of extending your layouts. Partials will be important for a later section of this guide.</p>
 <p>Firstly create a new folder inside _includes and name it partials. Inside this folder create two new files, head.njk and nav.njk. These will store the generic content of your head and nav that you want to be consistent between pages. All you need to do in these is copy the the content of your head and nav into them like so:</p>
 <p>head.njk:</p>
-<pre><code class="language-njk">&lt;meta charset=&quot;UTF-8&quot;&gt;
-&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-&lt;title&gt;Eleventy&lt;/title&gt;
-</code></pre>
+<pre class="language-njk"><code class="language-njk"><span class="token operator">&lt;</span><span class="token variable">meta</span> <span class="token variable">charset</span><span class="token operator">=</span><span class="token string">"UTF-8"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token variable">meta</span> <span class="token variable">name</span><span class="token operator">=</span><span class="token string">"viewport"</span> <span class="token variable">content</span><span class="token operator">=</span><span class="token string">"width=device-width, initial-scale=1.0"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token variable">title</span><span class="token operator">></span><span class="token variable">Eleventy</span><span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">title</span><span class="token operator">></span></code></pre>
 <p>nav.njk</p>
-<pre><code class="language-njk">&lt;nav&gt;
-    &lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;
-    &lt;a href=&quot;/blog&quot;&gt;Blog&lt;/a&gt;
-&lt;/nav&gt;
-</code></pre>
+<pre class="language-njk"><code class="language-njk"><span class="token operator">&lt;</span><span class="token variable">nav</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token variable">a</span> <span class="token variable">href</span><span class="token operator">=</span><span class="token string">"/"</span><span class="token operator">></span><span class="token variable">Home</span><span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">a</span><span class="token operator">></span>
+    <span class="token operator">&lt;</span><span class="token variable">a</span> <span class="token variable">href</span><span class="token operator">=</span><span class="token string">"/blog"</span><span class="token operator">></span><span class="token variable">Blog</span><span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">a</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">nav</span><span class="token operator">></span></code></pre>
 <p>Now in the place of where the content of head and nav were in your base.njk once were add <code>{% include &quot;partials/head.njk&quot; %}</code> and <code>{% include &quot;partials/nav.njk&quot; %}</code> respectively.</p>
 <p>Your base.njk should look something like this now:</p>
-<pre><code class="language-njk">&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    {% include &quot;partials/head.njk&quot; %}
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;/css/styles.css&quot;&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    {% include &quot;partials/nav.njk&quot; %}
-    {{ content | safe }}
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+<pre class="language-njk"><code class="language-njk"><span class="token operator">&lt;</span>!<span class="token variable">DOCTYPE</span> <span class="token variable">html</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token variable">html</span> <span class="token variable">lang</span><span class="token operator">=</span><span class="token string">"en"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token variable">head</span><span class="token operator">></span>
+    <span class="token punctuation">{</span><span class="token operator">%</span> <span class="token variable">include</span> <span class="token string">"partials/head.njk"</span> <span class="token operator">%</span><span class="token punctuation">}</span>
+    <span class="token operator">&lt;</span><span class="token variable">link</span> <span class="token variable">rel</span><span class="token operator">=</span><span class="token string">"stylesheet"</span> <span class="token variable">href</span><span class="token operator">=</span><span class="token string">"/css/styles.css"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">head</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token variable">body</span><span class="token operator">></span>
+    <span class="token punctuation">{</span><span class="token operator">%</span> <span class="token variable">include</span> <span class="token string">"partials/nav.njk"</span> <span class="token operator">%</span><span class="token punctuation">}</span>
+    <span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token variable">content</span> <span class="token operator">|</span> <span class="token variable">safe</span> <span class="token punctuation">}</span><span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">body</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">html</span><span class="token operator">></span></code></pre>
 <p>I've left the stylesheet link out of the head.njk partial in case you want to use a completely separate stylesheet for a page, but if that's not a concern it should work fine if left in.</p>
 <h2 id="collections" tabindex="-1">Collections</h2>
 <p>Collections in Eleventy allow you to group content, most commonly this is used to create blogs so I'll instruct you on doing that, though they are quite varied in their possible use-cases. Personally I use collections to display an interactive calendar of my thoughts as well as my sitemap.</p>
 <p>Firstly create a new folder named <span class="help" title="It actually doesn't matter what you call it, if it's inside your input folder (src) Eleventy will be able to find it. You technically don't even need a folder at all, I just like to organize">blog-posts</span> in src. Inside your folder create a new file called blog-posts.11tydata.json. This is a special file that will apply the <span class="help" title='Front matter data is the data we placed between two sets of dashes on our homepage.'>front matter data</span> we put inside of it to every blog post inside that folder or its subdirectories:</p>
-<pre><code class="language-json">{
-&quot;tags&quot;: &quot;posts&quot;,
-&quot;layout&quot;: &quot;base.njk&quot;
-}
-</code></pre>
+<pre class="language-json"><code class="language-json"><span class="token punctuation">{</span>
+<span class="token property">"tags"</span><span class="token operator">:</span> <span class="token string">"posts"</span><span class="token punctuation">,</span>
+<span class="token property">"layout"</span><span class="token operator">:</span> <span class="token string">"base.njk"</span>
+<span class="token punctuation">}</span></code></pre>
 <p>When making an 11tydata file it's important the file's name corresponds with the folder it's inside of. If you named the folder you store your blog posts inside something other than blog-posts, make sure to modify accordingly. These 11tydata files can also be JS if you'd like, <a href="https://www.11ty.dev/docs/data-template-dir/">it's just personal preference</a> and for simple things like this it doesn't matter. Now, create a document inside your new blog-posts folder, it can be any supported file type but for writing-heavy pages like blogs I prefer to use markdown so I'll be creating first-post.md. Inside this new file I'll be adding this data like we did earlier with our index:</p>
 <pre><code>---
 title: My first blog post
@@ -243,17 +235,16 @@ date: 2026-01-17
 ---
 </code></pre>
 <p>The date data key is special, just like layout from earlier and can have either a date written in the YYYY-MM-DD format, Created, git Created, git Last Modified or Last Modified. Personally I avoid using Create or Last Modified as I've found them to end up broken especially with all the compressing and moving of my site I've done, though they're technically options. The git versions are good but require you to have a git repository for your site. Because of our blog-posts.11tydata.json file this blog post is automatically placed into the posts collection. Now we can create a blog.njk file that will display a list of our blog posts. This file will need to be out of the blog-posts folder or it will be given the posts tag and be displayed as a blog post. Ensure this is a Nunjucks file or the following code won't work:</p>
-<pre><code class="language-njk">---
-title: blog posts
-layout: base.njk
----
+<pre class="language-njk"><code class="language-njk"><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
+<span class="token variable">title</span><span class="token punctuation">:</span> <span class="token variable">blog</span> <span class="token variable">posts</span>
+<span class="token variable">layout</span><span class="token punctuation">:</span> <span class="token variable">base</span><span class="token punctuation">.</span><span class="token variable">njk</span>
+<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
 
-&lt;ul&gt;
-    {% for post in collections[&quot;posts&quot;] | reverse %}
-        &lt;a href=&quot;{{ post.url }}&quot;&gt;&lt;li&gt;{{ post.data.title }} - {{ post.date.toLocaleDateString('en-US', { dateStyle: 'medium' }) }}&lt;/li&gt;&lt;/a&gt;
-    {% endfor %}
-&lt;/ul&gt;
-</code></pre>
+<span class="token operator">&lt;</span><span class="token variable">ul</span><span class="token operator">></span>
+    <span class="token punctuation">{</span><span class="token operator">%</span> <span class="token keyword">for</span> <span class="token variable">post</span> <span class="token keyword">in</span> <span class="token variable">collections</span><span class="token punctuation">[</span><span class="token string">"posts"</span><span class="token punctuation">]</span> <span class="token operator">|</span> <span class="token variable">reverse</span> <span class="token operator">%</span><span class="token punctuation">}</span>
+        <span class="token operator">&lt;</span><span class="token variable">a</span> <span class="token variable">href</span><span class="token operator">=</span><span class="token string">"{{ post.url }}"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token variable">li</span><span class="token operator">></span><span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token variable">post</span><span class="token punctuation">.</span><span class="token variable">data</span><span class="token punctuation">.</span><span class="token variable">title</span> <span class="token punctuation">}</span><span class="token punctuation">}</span> <span class="token operator">-</span> <span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token variable">post</span><span class="token punctuation">.</span><span class="token variable">date</span><span class="token punctuation">.</span><span class="token function">toLocaleDateString</span><span class="token punctuation">(</span><span class="token string">'en-US'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token variable">dateStyle</span><span class="token punctuation">:</span> <span class="token string">'medium'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">li</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">a</span><span class="token operator">></span>
+    <span class="token punctuation">{</span><span class="token operator">%</span> <span class="token variable">endfor</span> <span class="token operator">%</span><span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">ul</span><span class="token operator">></span></code></pre>
 <p>This code is using a Nunjucks for loop to go through the posts collection (which is just an glorified array) and displays the data of each list item. The reverse filter is used as Eleventy displays oldest first by default. It's recommended by Eleventy's creator to use a <a href="https://github.com/11ty/eleventy/issues/1157#issuecomment-629695501">library instead of Node's built-in toLocaleDateString</a>, Luxon is actually already a dependency so you'll have it when you install Eleventy, however for simplicity's sake I haven't used it here. If the list is empty, try restarting Eleventy's web server (CTRL + C in your console and run <code>npx @11ty/eleventy --serve</code> again). Eleventy can act weirdly with detecting changes made if collections, changes to the config file or filters are involved.</p>
 <h2 id="pagination" tabindex="-1">Pagination</h2>
 <p>This part is on using pagination, collections and permalinks to categorise blog posts into &quot;tags&quot;. Much of it is using code I made years ago while following <a href="https://www.11ty.dev/docs/quicktips/tag-pages/">this guide on the Eleventy website</a>.</p>
@@ -268,24 +259,23 @@ tags:
 ---
 </code></pre>
 <p>You can add as many or as few tags as you'd like to a post in this format and you can choose any name you'd like. Now inside src (but not inside blog-posts) create a new Nunjucks file to display all posts under a certain tag. I'm naming mine tags.njk. Then add this to the tags.njk file:</p>
-<pre><code class="language-njk">---
-layout: base.njk
-pagination:
-    data: collections
-    size: 1
-    alias: tag
-    filter:
-        - posts
-        - all
-permalink: /tags/{{ tag | slugify }}/
----
+<pre class="language-njk"><code class="language-njk"><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
+<span class="token variable">layout</span><span class="token punctuation">:</span> <span class="token variable">base</span><span class="token punctuation">.</span><span class="token variable">njk</span>
+<span class="token variable">pagination</span><span class="token punctuation">:</span>
+    <span class="token variable">data</span><span class="token punctuation">:</span> <span class="token variable">collections</span>
+    <span class="token variable">size</span><span class="token punctuation">:</span> <span class="token number">1</span>
+    <span class="token variable">alias</span><span class="token punctuation">:</span> <span class="token variable">tag</span>
+    <span class="token variable">filter</span><span class="token punctuation">:</span>
+        <span class="token operator">-</span> <span class="token variable">posts</span>
+        <span class="token operator">-</span> <span class="token variable">all</span>
+<span class="token variable">permalink</span><span class="token punctuation">:</span> <span class="token operator">/</span><span class="token variable">tags</span><span class="token operator">/</span><span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token variable">tag</span> <span class="token operator">|</span> <span class="token variable">slugify</span> <span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token operator">/</span>
+<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
 
-&lt;h3&gt;Blog posts tagged &quot;{{ tag }}&quot;&lt;/h3&gt;
+<span class="token operator">&lt;</span><span class="token variable">h3</span><span class="token operator">></span><span class="token variable">Blog</span> <span class="token variable">posts</span> <span class="token variable">tagged</span> <span class="token string">"{{ tag }}"</span><span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">h3</span><span class="token operator">></span>
 
-{% for post in collections[tag] | reverse %}
-    &lt;a href=&quot;{{ post.url }}&quot;&gt;&lt;li&gt;{{ post.data.title }} - {{ post.date.toLocaleDateString('en-US', { dateStyle: 'medium' }) }}&lt;/li&gt;&lt;/a&gt;
-{% endfor %}
-</code></pre>
+<span class="token punctuation">{</span><span class="token operator">%</span> <span class="token keyword">for</span> <span class="token variable">post</span> <span class="token keyword">in</span> <span class="token variable">collections</span><span class="token punctuation">[</span><span class="token variable">tag</span><span class="token punctuation">]</span> <span class="token operator">|</span> <span class="token variable">reverse</span> <span class="token operator">%</span><span class="token punctuation">}</span>
+    <span class="token operator">&lt;</span><span class="token variable">a</span> <span class="token variable">href</span><span class="token operator">=</span><span class="token string">"{{ post.url }}"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token variable">li</span><span class="token operator">></span><span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token variable">post</span><span class="token punctuation">.</span><span class="token variable">data</span><span class="token punctuation">.</span><span class="token variable">title</span> <span class="token punctuation">}</span><span class="token punctuation">}</span> <span class="token operator">-</span> <span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token variable">post</span><span class="token punctuation">.</span><span class="token variable">date</span><span class="token punctuation">.</span><span class="token function">toLocaleDateString</span><span class="token punctuation">(</span><span class="token string">'en-US'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token variable">dateStyle</span><span class="token punctuation">:</span> <span class="token string">'medium'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">li</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">a</span><span class="token operator">></span>
+<span class="token punctuation">{</span><span class="token operator">%</span> <span class="token variable">endfor</span> <span class="token operator">%</span><span class="token punctuation">}</span></code></pre>
 <p>You may notice that most of the Nunjucks code is identical to the blog posts list we created earlier, the main difference is that the collection is now tag not posts and quotation marks aren't used, as it's now a variable being created in the pagination section of the front matter data not a string. Pagination is fortunately very simple in Eleventy. We're first setting our dataset as the built-in &quot;collections&quot;, we're splitting each tag into it's own page by setting the size to one, we're setting an alias of tag because it's a lot cleaner than writing pagination.items and we're filtering out posts and all because they're both not needed and just display unnecessary information. Then we're using Eleventy's permalink feature to set where each of these pages will end up with their own specially named URLs and not just /tags/0-.../. We're also using slugify which is a built-in filter in order to convert the tag to a slug, which will cause things like whitespace to become dashes. The default slugify filter does however currently <a href="https://github.com/sindresorhus/transliterate/issues/1">ignore most non-latin characters</a>. This means that any tags with no unicode characters in their name will not work (eg a tag entirely in Chinese). If this is an issue I'd consider looking into creating your own slugify filter.</p>
 <p>Now, for users to access these tag lists I like displaying them on blog posts. If you'd prefer having just a list of all your tags (or both), you can put this code somewhere in a Nunjucks file:</p>
 <pre><code>&lt;ul&gt;
@@ -299,50 +289,46 @@ permalink: /tags/{{ tag | slugify }}/
 &lt;/ul&gt;
 </code></pre>
 <p>for tag, posts in collections iterates through all Eleventy collections in the collections object which looks something like:</p>
-<pre><code class="language-js">collections = {
-  &quot;all&quot;: [...],
-  &quot;posts&quot;: [...],
-  &quot;another-tag&quot;: [...]
-}
-</code></pre>
+<pre class="language-js"><code class="language-js">collections <span class="token operator">=</span> <span class="token punctuation">{</span>
+  <span class="token string-property property">"all"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"posts"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"another-tag"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span></code></pre>
 <p>The &quot;tag&quot; variable symbolises the key (all, posts, another-tag) and posts symbolises the value (the posts in that collection). Even though we don't use posts we'll still need it as without it Nunjucks won't know what to do and won't be able to iterate over the object. In this we're also filtering out &quot;all&quot; and &quot;posts&quot; as once again they aren't necessary.</p>
 <p>If you want to display the tags each blog post has inside of the post itself I recommend making a new layout. Go into your _includes folder and make a Nunjucks file, I'm calling mine blog-layout.njk. Inside your new layout do the usual setup we did in our base.njk but in the body we can adding this:</p>
-<pre><code class="language-njk">{% for tag in tags %}
-    {% if tag != &quot;posts&quot; %}
-        &lt;a href=&quot;/tags/{{ tag }}&quot;&gt;#{{ tag }}&lt;/a&gt;
-    {% endif %}
-{% endfor %}
-</code></pre>
+<pre class="language-njk"><code class="language-njk"><span class="token delimiter punctuation">{%</span> <span class="token tag keyword">for</span> <span class="token variable">tag</span> <span class="token keyword">in</span> <span class="token variable">tags</span> <span class="token operator">%</span><span class="token punctuation">}</span>
+    <span class="token punctuation">{</span><span class="token operator">%</span> <span class="token keyword">if</span> <span class="token variable">tag</span> <span class="token operator">!=</span> <span class="token string">"posts"</span> <span class="token operator">%</span><span class="token punctuation">}</span>
+        <span class="token operator">&lt;</span><span class="token variable">a</span> <span class="token variable">href</span><span class="token operator">=</span><span class="token string">"/tags/{{ tag }}"</span><span class="token operator">></span>#<span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token variable">tag</span> <span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">a</span><span class="token operator">></span>
+    <span class="token punctuation">{</span><span class="token operator">%</span> <span class="token variable">endif</span> <span class="token operator">%</span><span class="token punctuation">}</span>
+<span class="token punctuation">{</span><span class="token operator">%</span> <span class="token variable">endfor</span> <span class="token operator">%</span><span class="token punctuation">}</span></code></pre>
 <p>This is a for loop that will loop through the tags array we created in our post's front matter. If the tag it's currently iterating through is &quot;posts&quot; it will skip to the next tag in the array without adding anything as it's unnecessary. No need to filter out all this time as it's not a tag in the tags array.</p>
 <p>My blog-layout.njk looked like this:</p>
-<pre><code class="language-njk">&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    {% include &quot;partials/head.njk&quot; %}
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;/css/styles.css&quot;&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    {% include &quot;partials/nav.njk&quot; %}
+<pre class="language-njk"><code class="language-njk"><span class="token operator">&lt;</span>!<span class="token variable">DOCTYPE</span> <span class="token variable">html</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token variable">html</span> <span class="token variable">lang</span><span class="token operator">=</span><span class="token string">"en"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token variable">head</span><span class="token operator">></span>
+    <span class="token punctuation">{</span><span class="token operator">%</span> <span class="token variable">include</span> <span class="token string">"partials/head.njk"</span> <span class="token operator">%</span><span class="token punctuation">}</span>
+    <span class="token operator">&lt;</span><span class="token variable">link</span> <span class="token variable">rel</span><span class="token operator">=</span><span class="token string">"stylesheet"</span> <span class="token variable">href</span><span class="token operator">=</span><span class="token string">"/css/styles.css"</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">head</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token variable">body</span><span class="token operator">></span>
+    <span class="token punctuation">{</span><span class="token operator">%</span> <span class="token variable">include</span> <span class="token string">"partials/nav.njk"</span> <span class="token operator">%</span><span class="token punctuation">}</span>
 
-    {% for tag in tags %}
-        {% if tag != &quot;posts&quot; %}
-            &lt;a href=&quot;/tags/{{ tag }}&quot;&gt;#{{ tag }}&lt;/a&gt;
-        {% endif %}
-    {% endfor %}
+    <span class="token punctuation">{</span><span class="token operator">%</span> <span class="token keyword">for</span> <span class="token variable">tag</span> <span class="token keyword">in</span> <span class="token variable">tags</span> <span class="token operator">%</span><span class="token punctuation">}</span>
+        <span class="token punctuation">{</span><span class="token operator">%</span> <span class="token keyword">if</span> <span class="token variable">tag</span> <span class="token operator">!=</span> <span class="token string">"posts"</span> <span class="token operator">%</span><span class="token punctuation">}</span>
+            <span class="token operator">&lt;</span><span class="token variable">a</span> <span class="token variable">href</span><span class="token operator">=</span><span class="token string">"/tags/{{ tag }}"</span><span class="token operator">></span>#<span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token variable">tag</span> <span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">a</span><span class="token operator">></span>
+        <span class="token punctuation">{</span><span class="token operator">%</span> <span class="token variable">endif</span> <span class="token operator">%</span><span class="token punctuation">}</span>
+    <span class="token punctuation">{</span><span class="token operator">%</span> <span class="token variable">endfor</span> <span class="token operator">%</span><span class="token punctuation">}</span>
 
-    {{ content | safe }}
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+    <span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token variable">content</span> <span class="token operator">|</span> <span class="token variable">safe</span> <span class="token punctuation">}</span><span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">body</span><span class="token operator">></span>
+<span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">html</span><span class="token operator">></span></code></pre>
 <p>Update your blog-post.11tydata.json file to use this layout instead of base.njk and now each post will now display its tags and links to the list of every post under that particular tag:</p>
 <p><img src="/assets/eleventy/completed.png" alt="blog post with tags"></p>
 <h2 id="adding-scripts-to-package.json" tabindex="-1">Adding scripts to package.json</h2>
 <p>If you think writing <code>npx @11ty/eleventy --serve</code> is a pain you can save time by adding custom scripts to your package.json. My scripts look like:</p>
-<pre><code class="language-json">&quot;scripts&quot;: {
-    &quot;dev&quot;: &quot;npx @11ty/eleventy --serve&quot;,
-    &quot;build&quot;: &quot;npx @11ty/eleventy&quot;
-},
-</code></pre>
+<pre class="language-json"><code class="language-json"><span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">"dev"</span><span class="token operator">:</span> <span class="token string">"npx @11ty/eleventy --serve"</span><span class="token punctuation">,</span>
+    <span class="token property">"build"</span><span class="token operator">:</span> <span class="token string">"npx @11ty/eleventy"</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
 <p>You can write any command you'd put in the terminal here and give it a name however. Just make sure you remember to put a comma before every separate script or it will break. You can run these scripts with the command <code>npm run SCRIPT_NAME</code>. For example if I want to run the dev script you can run <code>npm run dev</code>. In most terminals you can also press the up arrow to go to previously ran commands to save even more time.</p>
 <h2 id="getting-your-site-onto-nekoweb" tabindex="-1">Getting your site onto Nekoweb</h2>
 <p>Now that we've set up the foundations of our new Eleventy site it's time to upload it onto Nekoweb. In your terminal run the command <code>npx @11ty/eleventy</code> to build your project to its output folder.</p>
@@ -360,68 +346,63 @@ permalink: /tags/{{ tag | slugify }}/
 <p>If you're just getting started with Eleventy and especially if you don't have a grasp of JS I don't recommend reading ahead. It's not going to be anything super advanced but I'll be doing less explanation so proceed with caution.</p>
 <h2 id="custom-filters---word-count%2Fread-time" tabindex="-1">Custom filters - Word count/read time</h2>
 <p>You can create your own filters using JS, we'll make one that displays the word count on your blog posts and the estimated time to read. Go into your eleventy config file (.eleventy.js) and add this filter inside the eleventyConfig export function:</p>
-<pre><code class="language-js">eleventyConfig.addFilter(&quot;readTime&quot;, (content) =&gt; {
-    let wordCount = content.trim().split(/\s+/).length;
-    let timeToRead = Math.ceil(wordCount / 200);
-    return `${wordCount} words (${timeToRead} min read)`;
-});
-</code></pre>
+<pre class="language-js"><code class="language-js">eleventyConfig<span class="token punctuation">.</span><span class="token function">addFilter</span><span class="token punctuation">(</span><span class="token string">"readTime"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">content</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> wordCount <span class="token operator">=</span> content<span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">\s+</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+    <span class="token keyword">let</span> timeToRead <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">ceil</span><span class="token punctuation">(</span>wordCount <span class="token operator">/</span> <span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>wordCount<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> words (</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>timeToRead<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> min read)</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>I'd expect your .eleventy.js file to look something like this:</p>
-<pre><code class="language-js">module.exports = function(eleventyConfig) {
-    eleventyConfig.addPassthroughCopy(&quot;src/css/**/*.css&quot;);
-    eleventyConfig.addPassthroughCopy(&quot;src/assets/*&quot;);
+<pre class="language-js"><code class="language-js">module<span class="token punctuation">.</span><span class="token function-variable function">exports</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">eleventyConfig</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    eleventyConfig<span class="token punctuation">.</span><span class="token function">addPassthroughCopy</span><span class="token punctuation">(</span><span class="token string">"src/css/**/*.css"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    eleventyConfig<span class="token punctuation">.</span><span class="token function">addPassthroughCopy</span><span class="token punctuation">(</span><span class="token string">"src/assets/*"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    eleventyConfig.addFilter(&quot;readTime&quot;, (content) =&gt; {
-        let wordCount = content.split(/\s+/).length - 1;
-        let timeToRead = Math.ceil(wordCount / 200);
-        return `${wordCount} words (${timeToRead} min read)`;
-    });
+    eleventyConfig<span class="token punctuation">.</span><span class="token function">addFilter</span><span class="token punctuation">(</span><span class="token string">"readTime"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">content</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> wordCount <span class="token operator">=</span> content<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">\s+</span><span class="token regex-delimiter">/</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">let</span> timeToRead <span class="token operator">=</span> Math<span class="token punctuation">.</span><span class="token function">ceil</span><span class="token punctuation">(</span>wordCount <span class="token operator">/</span> <span class="token number">200</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>wordCount<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> words (</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>timeToRead<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> min read)</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    return {
-        dir: {
-            input: &quot;src&quot;,
-            output: &quot;_site&quot;
-        }
-    };
-};
-</code></pre>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        <span class="token literal-property property">dir</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">input</span><span class="token operator">:</span> <span class="token string">"src"</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">output</span><span class="token operator">:</span> <span class="token string">"_site"</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
 <p>This adds a filter named readTime that is trims input of leading/trailing whitespace which always seems to end up in Eleventy's output and offsets the word count by one or two words. Then the input is split up at every <span class="help" title="A whitespace character is a character that represents white (blank) space. The most common is just a normal space.">whitespace character</span> (or set of whitespace characters) into an array, before getting the length of this array which will come out to be the word count of the input. Then that count is divided by 200 (a low end estimate of average WPM reading speed), rounds up and returns a string with this information. You can edit the returned string to say whatever you'd want, we're using template literals in order to include the wordCount and timeToRead variables inside a string of text cleanly so it can be easily moved around, just make sure the dollar signs stay before the curly brackets or the variables will break.</p>
 <p>It's fortunately quite easy to get the input content from your blog posts too with the built in content aka templateContent data. If you'll remember we also use this in our layouts. Applying this to your blog.njk looks something like like:</p>
-<pre><code class="language-njk">&lt;ul&gt;
-{% for post in collections[&quot;posts&quot;] | reverse %}
-    &lt;a href='{{ post[&quot;url&quot;] }}'&gt;&lt;li&gt;{{ post[&quot;data&quot;][&quot;title&quot;] }} - {{ post[&quot;date&quot;].toLocaleDateString('en-US', { dateStyle: 'medium' }) }} - {{ post[&quot;content&quot;] | readTime }}&lt;/li&gt;&lt;/a&gt;
-{% endfor %}
-&lt;/ul&gt;
-</code></pre>
+<pre class="language-njk"><code class="language-njk"><span class="token operator">&lt;</span><span class="token variable">ul</span><span class="token operator">></span>
+<span class="token punctuation">{</span><span class="token operator">%</span> <span class="token keyword">for</span> <span class="token variable">post</span> <span class="token keyword">in</span> <span class="token variable">collections</span><span class="token punctuation">[</span><span class="token string">"posts"</span><span class="token punctuation">]</span> <span class="token operator">|</span> <span class="token variable">reverse</span> <span class="token operator">%</span><span class="token punctuation">}</span>
+    <span class="token operator">&lt;</span><span class="token variable">a</span> <span class="token variable">href</span><span class="token operator">=</span><span class="token string">'{{ post["url"] }}'</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token variable">li</span><span class="token operator">></span><span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token variable">post</span><span class="token punctuation">[</span><span class="token string">"data"</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">"title"</span><span class="token punctuation">]</span> <span class="token punctuation">}</span><span class="token punctuation">}</span> <span class="token operator">-</span> <span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token variable">post</span><span class="token punctuation">[</span><span class="token string">"date"</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">toLocaleDateString</span><span class="token punctuation">(</span><span class="token string">'en-US'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token variable">dateStyle</span><span class="token punctuation">:</span> <span class="token string">'medium'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">}</span> <span class="token operator">-</span> <span class="token punctuation">{</span><span class="token punctuation">{</span> <span class="token variable">post</span><span class="token punctuation">[</span><span class="token string">"content"</span><span class="token punctuation">]</span> <span class="token operator">|</span> <span class="token variable">readTime</span> <span class="token punctuation">}</span><span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">li</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">a</span><span class="token operator">></span>
+<span class="token punctuation">{</span><span class="token operator">%</span> <span class="token variable">endfor</span> <span class="token operator">%</span><span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span><span class="token variable">ul</span><span class="token operator">></span></code></pre>
 <h2 id="adding-new-npm-packages-and-esm" tabindex="-1">Adding new NPM packages and ESM</h2>
 <p>A benefit of having a Node based SSG is being able to use the giant library of packages people have created on your site. Obviously many won't be applicable but if it sounds like it would be able to work, odds are it will. If you're already comfortable with the install process feel free to skip this part, but if you aren't, follow along. For future sections I won't explain installing these packages as thoroughly so consider this an introduction to that process. We'll be adding the uwuifier package to our site, using it in a filter and then removing it. First we're going to go to the <a href="https://www.npmjs.com/">npmjs.com</a> website and search for the package we want, for this it'll be <a href="https://www.npmjs.com/package/uwuifier">uwuifier</a>. On most packages' npmjs page you'll be able to find information on how to set them up as well as some stats. You can also see how many <span title="How many other packages they require that'll need to be installed along side them" class="help">dependencies</span> they have. When you download a package it will automatically download its dependencies, however try if you can to avoid packages with unnecessarily huge amounts of dependencies as it can cause your node_modules folder to balloon in size. For something as simple as this uwuifier it shouldn't need any dependencies so I chose this one accordingly. Now we're going to run the command <code>npm i uwuifier</code> in our terminal inside of the root directory of our Eleventy site. The &quot;i&quot; is shorthand for install. This will install the package into our node_modules folder so we can use it. When installing packages it's important to watch the terminal output for any vulnerabilities, generally for a static Eleventy site that won't matter as we're building locally and not running a Node server publicly but it can be a sign the package you're downloading is poorly maintained.</p>
 <p>Now we can import our new package into our .eleventy.js file by putting <code>const uwuify = require(&quot;uwuifier&quot;);</code>. You can call the constant whatever you want, but you have to make sure the name in the require is the exact name of the package. Now, to use this as a filter we're going to follow steps much like what we did earlier with our last filter. Inside of the eleventyConfig export function adding this code:</p>
-<pre><code class="language-js">eleventyConfig.addFilter(&quot;uwuifyText&quot;, (content) =&gt; {
-    const uwuifier = new uwuify.default();
-    return uwuifier.uwuifySentence(content);
-});
-</code></pre>
+<pre class="language-js"><code class="language-js">eleventyConfig<span class="token punctuation">.</span><span class="token function">addFilter</span><span class="token punctuation">(</span><span class="token string">"uwuifyText"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">content</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> uwuifier <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">uwuify<span class="token punctuation">.</span>default</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> uwuifier<span class="token punctuation">.</span><span class="token function">uwuifySentence</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>Most of this code was pulled straight from the example on uwuifier's NPM page. The reason we have to add the <code>.default()</code> is a bit complicated but in sort we're using CommonJS for our project, a somewhat older <span class="help" title="A system that defines the syntax and rules of modules (code we load with require)">module formatting system</span> for Javascript as well as the default for a NodeJS project, while the package we're using is using ESM. For simple purposes like ours they're almost interchangeable however sometimes small hiccups like this spring up. You could also put this .default() in when we import the package. If you're using VS Code it will actually warn you if the package you're importing is ESM but if you miss it you could also deduce this issue if you get an error something along the lines of <code> Original error stack trace: TypeError: PACKAGE_NAME is not a constructor</code>.</p>
 <p>If you'd like to switch to using ESM in your Eleventy project, it's quite simple. First go into your package.json and set &quot;type&quot; (which you can add if not there) from &quot;commonjs&quot; to &quot;module&quot;. Then there are two changes needed to be made to your .eleventy.js, firstly you now import packages with the syntax: <code>import variable_name from &quot;package_name&quot;;</code> and instead of <code>module.exports = function()</code> you should now use  <code>export default function()</code>. You'd also no longer need to add .default() to packages made using ESM. Your .eleventy.js would then look something like:</p>
-<pre><code class="language-js">import uwuify from &quot;uwuifier&quot;;
+<pre class="language-js"><code class="language-js"><span class="token keyword">import</span> uwuify <span class="token keyword">from</span> <span class="token string">"uwuifier"</span><span class="token punctuation">;</span>
 
-export default function (eleventyConfig) {
-    eleventyConfig.addPassthroughCopy(&quot;src/css/*.css&quot;);
-    eleventyConfig.addPassthroughCopy(&quot;src/assets/*&quot;);
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">eleventyConfig</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    eleventyConfig<span class="token punctuation">.</span><span class="token function">addPassthroughCopy</span><span class="token punctuation">(</span><span class="token string">"src/css/*.css"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    eleventyConfig<span class="token punctuation">.</span><span class="token function">addPassthroughCopy</span><span class="token punctuation">(</span><span class="token string">"src/assets/*"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    eleventyConfig.addFilter(&quot;uwuifyText&quot;, (content) =&gt; {
-        const uwuifier = new uwuify;
-        return uwuifier.uwuifySentence(content);
-    });
+    eleventyConfig<span class="token punctuation">.</span><span class="token function">addFilter</span><span class="token punctuation">(</span><span class="token string">"uwuifyText"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">content</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> uwuifier <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">uwuify</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> uwuifier<span class="token punctuation">.</span><span class="token function">uwuifySentence</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    return {
-        dir: {
-            input: &quot;src&quot;,
-            output: &quot;_site&quot;
-        }
-    };
-};
-</code></pre>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        <span class="token literal-property property">dir</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">input</span><span class="token operator">:</span> <span class="token string">"src"</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">output</span><span class="token operator">:</span> <span class="token string">"_site"</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
 <p>To test our new filter we can go to our blog layout and apply it to our content like <code>{{ content | uwuifyText | safe }}</code>. If your blog posts have been sufficiently uwuified you completed the process successfully. Now that we know how to use NPM packages we can remove uwuifier, first remove the filter from your layout, then remove the code adding the filter from your .eleventy.js before finally running the command <code>npm r uwuifier</code> to completely remove the package from your project. The &quot;r&quot; is shorthand for remove.</p>
 <div class="note">
 <h4 id="note%3A" tabindex="-1">Note:</h4>
@@ -429,22 +410,21 @@ export default function (eleventyConfig) {
 </div>
 <h2 id="adding-plugins---syntax-highlighting" tabindex="-1">Adding plugins - Syntax highlighting</h2>
 <p>Eleventy has an <a href="https://www.11ty.dev/docs/plugins/syntaxhighlight/">official syntax highlighting plugin</a> that allows code you've written in markdown to have it's syntax highlighted without any fuss or client JS. Firstly as this is a separate NPM package we'll need to run the command <code>npm i @11ty/eleventy-plugin-syntaxhighlight</code> inside of our Eleventy project folder to download it. Once installed import the package (I'll be setting its variable's name to <code>syntaxHighlight</code>) before putting <code>eleventyConfig.addPlugin(syntaxHighlight);</code> inside our export function. I'd expect your .eleventy.js file to look something like this if you're still using CommonJS:</p>
-<pre><code class="language-js">const syntaxHighlight = require(&quot;@11ty/eleventy-plugin-syntaxhighlight&quot;);
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> syntaxHighlight <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"@11ty/eleventy-plugin-syntaxhighlight"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-module.exports = function(eleventyConfig) {
-    eleventyConfig.addPassthroughCopy(&quot;src/css/**/*.css&quot;);
-    eleventyConfig.addPassthroughCopy(&quot;src/assets/*&quot;);
+module<span class="token punctuation">.</span><span class="token function-variable function">exports</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">eleventyConfig</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    eleventyConfig<span class="token punctuation">.</span><span class="token function">addPassthroughCopy</span><span class="token punctuation">(</span><span class="token string">"src/css/**/*.css"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    eleventyConfig<span class="token punctuation">.</span><span class="token function">addPassthroughCopy</span><span class="token punctuation">(</span><span class="token string">"src/assets/*"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    eleventyConfig.addPlugin(syntaxHighlight);
+    eleventyConfig<span class="token punctuation">.</span><span class="token function">addPlugin</span><span class="token punctuation">(</span>syntaxHighlight<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    return {
-        dir: {
-            input: &quot;src&quot;,
-            output: &quot;_site&quot;
-        }
-    };
-};
-</code></pre>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        <span class="token literal-property property">dir</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">input</span><span class="token operator">:</span> <span class="token string">"src"</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">output</span><span class="token operator">:</span> <span class="token string">"_site"</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
 <p>That's all you need to set the plugin up. To declare a codeblock in markdown you need to add three backticks and the targeted language's name, then add the code and close with another three backticks e.g:</p>
 <p>```js<br>
 console.log(&quot;hi!&quot;);<br>
@@ -454,54 +434,51 @@ console.log(&quot;hi!&quot;);<br>
 <p>If you aren't seeing a similar result without getting console errors its highly likely that either: your stylesheet isn't being imported properly, your stylesheet isn't valid or your chosen language isn't valid (though you should still be able to see a background on your code at least).</p>
 <h2 id="transforms---minifying" tabindex="-1">Transforms - Minifying</h2>
 <p>Eleventy transforms let you modify a template's output at build. I've seen it used for <span class="help" title="Removing unnecessary whitespace and comments at build to speed up your site by decreasing its filesize">minifying</span> HTML and that's about it. To do that we first need to install the NPM package html-minifier-terser with the command <code>npm i html-minifier-terser</code> in your console. Then we'll import the package (I'll be setting its variable's name to <code>htmlmin</code>) to our .eleventy.js and add this code into our export function:</p>
-<pre><code class="language-js">eleventyConfig.addTransform(&quot;htmlmin&quot;, function (content) {
-    if ((this.page.outputPath || &quot;&quot;).endsWith(&quot;.html&quot;)) {
-        return htmlmin.minify(content, {
-            useShortDoctype: true,
-            removeComments: true,
-            collapseWhitespace: true,
-        });
-    }
+<pre class="language-js"><code class="language-js">eleventyConfig<span class="token punctuation">.</span><span class="token function">addTransform</span><span class="token punctuation">(</span><span class="token string">"htmlmin"</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">content</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>page<span class="token punctuation">.</span>outputPath <span class="token operator">||</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">endsWith</span><span class="token punctuation">(</span><span class="token string">".html"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> htmlmin<span class="token punctuation">.</span><span class="token function">minify</span><span class="token punctuation">(</span>content<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">useShortDoctype</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">removeComments</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">collapseWhitespace</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    return content;
-});
-</code></pre>
+    <span class="token keyword">return</span> content<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>If you're using CommonJS your .eleventy.js should look something like this:</p>
-<pre><code class="language-js">const htmlmin = require(&quot;html-minifier-terser&quot;);
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> htmlmin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"html-minifier-terser"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-module.exports = function(eleventyConfig) {
-    eleventyConfig.addPassthroughCopy(&quot;src/css/**/*.css&quot;);
-    eleventyConfig.addPassthroughCopy(&quot;src/assets/*&quot;);
+module<span class="token punctuation">.</span><span class="token function-variable function">exports</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">eleventyConfig</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    eleventyConfig<span class="token punctuation">.</span><span class="token function">addPassthroughCopy</span><span class="token punctuation">(</span><span class="token string">"src/css/**/*.css"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    eleventyConfig<span class="token punctuation">.</span><span class="token function">addPassthroughCopy</span><span class="token punctuation">(</span><span class="token string">"src/assets/*"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    eleventyConfig.addTransform(&quot;htmlmin&quot;, function (content) {
-        if ((this.page.outputPath || &quot;&quot;).endsWith(&quot;.html&quot;)) {
-            return htmlmin.minify(content, {
-                useShortDoctype: true,
-                removeComments: true,
-                collapseWhitespace: true,
-                minifyCSS: true,
-                minifyJS: true
-            });
-        }
+    eleventyConfig<span class="token punctuation">.</span><span class="token function">addTransform</span><span class="token punctuation">(</span><span class="token string">"htmlmin"</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">content</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>page<span class="token punctuation">.</span>outputPath <span class="token operator">||</span> <span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">endsWith</span><span class="token punctuation">(</span><span class="token string">".html"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> htmlmin<span class="token punctuation">.</span><span class="token function">minify</span><span class="token punctuation">(</span>content<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+                <span class="token literal-property property">useShortDoctype</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+                <span class="token literal-property property">removeComments</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+                <span class="token literal-property property">collapseWhitespace</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+                <span class="token literal-property property">minifyCSS</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+                <span class="token literal-property property">minifyJS</span><span class="token operator">:</span> <span class="token boolean">true</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
 
-        return content;
-    });
+        <span class="token keyword">return</span> content<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    return {
-        dir: {
-            input: &quot;src&quot;,
-            output: &quot;_site&quot;
-        }
-    };
-};
-</code></pre>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        <span class="token literal-property property">dir</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">input</span><span class="token operator">:</span> <span class="token string">"src"</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">output</span><span class="token operator">:</span> <span class="token string">"_site"</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
 <p>That's all you need to do, now your built HTML will be minified. The options you can choose <a href="https://github.com/terser/html-minifier-terser?tab=readme-ov-file#options-quick-reference">are available on html-minify-terser's Github page</a>. My personal choice of options are in the code snippet. You can add or remove these options in the section of code where these are:</p>
-<pre><code class="language-js">useShortDoctype: true,
-removeComments: true,
-collapseWhitespace: true,
-minifyCSS: true,
-minifyJS: true
-</code></pre>
+<pre class="language-js"><code class="language-js"><span class="token literal-property property">useShortDoctype</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+<span class="token literal-property property">removeComments</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+<span class="token literal-property property">collapseWhitespace</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+<span class="token literal-property property">minifyCSS</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+<span class="token literal-property property">minifyJS</span><span class="token operator">:</span> <span class="token boolean">true</span></code></pre>
 <p>Make sure to add commas between the lines though or else you'll get an error.</p>
 <div class="note">
 <h4 id="note%3A-1" tabindex="-1">Note:</h4>
@@ -513,39 +490,36 @@ minifyJS: true
 <h2 id="amendlibrary---markdown-footnotes" tabindex="-1">amendLibrary - Markdown footnotes</h2>
 <p>The amendLibrary method can be used to customize a library after it's been created by Eleventy prior to it being used to render your site. It's most often used for adding plugins to markdown-it, Eleventy's default markdown parser. For this example I'll be adding <a href="https://www.npmjs.com/package/markdown-it-footnote">markdown-it-footnote</a> however there any many popular choices. It might be worth your time to also check out <a href="https://www.npmjs.com/package/markdown-it-anchor">markdown-it-anchor</a> and VS Code's fork of <a href="https://www.npmjs.com/package/@vscode/markdown-it-katex">markdown-it-katex</a> as they're both pretty cool. The following instructions work for every markdown-it plugin I've tried so don't worry if you'd like to use another.</p>
 <p>Install markdown-it-footnote by running the command <code>npm i markdown-it-footnote</code> in your terminal to install the package before importing the package to our .eleventy.js file (I'll be setting its variable's name to <code>markdownItFootnote</code>). Inside of the exports section add:</p>
-<pre><code class="language-js">eleventyConfig.amendLibrary(&quot;md&quot;, (mdIt) =&gt; {
-    mdIt.use(markdownItFootnote);
-});
-</code></pre>
+<pre class="language-js"><code class="language-js">eleventyConfig<span class="token punctuation">.</span><span class="token function">amendLibrary</span><span class="token punctuation">(</span><span class="token string">"md"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">mdIt</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    mdIt<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>markdownItFootnote<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>Your .eleventy.js should now look something like if you're using CommonJS:</p>
-<pre><code class="language-js">const markdownItFootnote = require(&quot;markdown-it-footnote&quot;);
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> markdownItFootnote <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"markdown-it-footnote"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-module.exports = function(eleventyConfig) {
-    eleventyConfig.addPassthroughCopy(&quot;src/css/**/*.css&quot;);
-    eleventyConfig.addPassthroughCopy(&quot;src/assets/*&quot;);
+module<span class="token punctuation">.</span><span class="token function-variable function">exports</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">eleventyConfig</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    eleventyConfig<span class="token punctuation">.</span><span class="token function">addPassthroughCopy</span><span class="token punctuation">(</span><span class="token string">"src/css/**/*.css"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    eleventyConfig<span class="token punctuation">.</span><span class="token function">addPassthroughCopy</span><span class="token punctuation">(</span><span class="token string">"src/assets/*"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    eleventyConfig.amendLibrary(&quot;md&quot;, (mdIt) =&gt; {
-        mdIt.use(markdownItFootnote);
-    });
+    eleventyConfig<span class="token punctuation">.</span><span class="token function">amendLibrary</span><span class="token punctuation">(</span><span class="token string">"md"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">mdIt</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        mdIt<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>markdownItFootnote<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    return {
-        dir: {
-            input: &quot;src&quot;,
-            output: &quot;_site&quot;
-        }
-    };
-};
-</code></pre>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        <span class="token literal-property property">dir</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+            <span class="token literal-property property">input</span><span class="token operator">:</span> <span class="token string">"src"</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">output</span><span class="token operator">:</span> <span class="token string">"_site"</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
 <p>In order to add a footnote in markdown the syntax is:</p>
 <pre><code>something something something [^1]
 
 [^1]: this is a footnote
 </code></pre>
 <p>If you'd like to add more markdown-it plugins you can chain them onto the same amendLibrary method like so:</p>
-<pre><code class="language-js">eleventyConfig.amendLibrary(&quot;md&quot;, (mdIt) =&gt; {
-    mdIt.use(markdownItFootnote).use(markdownItKatex);
-});
-</code></pre>
+<pre class="language-js"><code class="language-js">eleventyConfig<span class="token punctuation">.</span><span class="token function">amendLibrary</span><span class="token punctuation">(</span><span class="token string">"md"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">mdIt</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    mdIt<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>markdownItFootnote<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>markdownItKatex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 
 </main>
 </div>

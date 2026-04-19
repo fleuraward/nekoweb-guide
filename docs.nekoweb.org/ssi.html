@@ -40,6 +40,7 @@ o.             ..,:ldxOKXNNWMMMMMMMMMMMMMMMMMMMMMM
   <title>Nekoweb Docs | SSI </title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/prism-gruvbox-light.css" />
   <meta name="darkreader-lock" content="">
 
   <!-- FAVICON -->
@@ -130,22 +131,21 @@ function myFunction() {
 <p><img src="/assets/ssi/firstpage.png" alt="blank page with nav and text"></p>
 <p>However I've come to find it annoying to need to add the same code for my <code>&lt;head&gt;</code> and <code>&lt;nav&gt;</code> on every page when it'll be nearly identical on each one. The solution for this is the <code>layout</code> directive, where we can create the HTML to wrap your content in so you don't have to write redundant HTML. First, we're going to create a new folder in the root of our site and name it <code>layouts</code> and inside of this folder we're going to create a new file named <code>base.html</code>. This will be the base layout that all my pages use.</p>
 <p>Currently index.html is the following code:</p>
-<pre><code class="language-html">&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;meta charset=&quot;UTF-8&quot;&gt;
-    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-    &lt;title&gt;Nekoweb SSI!&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;nav&gt;
-        &lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;
-        &lt;a href=&quot;/pages/blog-posts.html&quot;&gt;Blog posts&lt;/a&gt;
-    &lt;/nav&gt;
-    &lt;p&gt;This is for a guide on how to use Nekoweb's SSI&lt;/p&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+<pre class="language-html"><code class="language-html"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>width=device-width, initial-scale=1.0<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>Nekoweb SSI!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>nav</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Home<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/pages/blog-posts.html<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Blog posts<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>nav</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>This is for a guide on how to use Nekoweb's SSI<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span></code></pre>
 <p>From this file we're going to take everything but the content of the page (the text in <code>&lt;p&gt;</code>) and put it into the <code>base.html</code> file. However where we want the main content to be we can add the <code>block</code> directive like so: <code>&lt;!--# block name=&quot;content&quot; --&gt;&lt;!--# endblock --&gt;</code>. The <code>&lt;!--# --&gt;</code> is the syntax for a SSI directive, it is nearly identical to a comment in HTML or XML but with a hashtag after the second dash. Blocks also must be named to be used, we named this one content as thats what it'll be wrapped around but there are no hard and fast naming rules; we could've named it John and as long as we accessed it correctly later it'd still work the same (though it does need some name). You can also create multiple blocks in different places (e.g. one in the body and one in the head). You can think of blocks in the same way you would for something like a div, it needs to be open and closed and can store other elements inside it (but you can't nest other blocks in a block). It is also somewhat unique in that it's the only directive that needs to be closed.</p>
 <div class="note">
 <h4 id="note%3A" tabindex="-1">Note:</h4>
@@ -165,12 +165,11 @@ function myFunction() {
 </div>
 <p>That aside, if you've followed correctly you should now see whatever was inside your layout on the page you imported it into. If you don't see anything you've likely used the directive incorrectly (probably a misspelling of layout or missing a #). If it says &quot;File not found&quot; then something in your file path is likely incorrect.</p>
 <p>Now, if everything is working and we want to add content to our content block just add the same <code>&lt;!--# block name=&quot;content&quot; --&gt;&lt;!--# endblock --&gt;</code> directive as before (with the content name) and anything inside will be added wherever the content block was defined in your layout. This is what the code of my <code>index.html</code> looks like now:</p>
-<pre><code class="language-html">&lt;!--# layout file=&quot;./layouts/base.html&quot; --&gt;
+<pre class="language-html"><code class="language-html"><span class="token comment">&lt;!--# layout file="./layouts/base.html" --></span>
 
-&lt;!--# block name=&quot;content&quot; --&gt;
-	&lt;p&gt;This is for a guide on how to use Nekoweb's SSI&lt;/p&gt;
-&lt;!--# endblock --&gt;
-</code></pre>
+<span class="token comment">&lt;!--# block name="content" --></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>This is for a guide on how to use Nekoweb's SSI<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+<span class="token comment">&lt;!--# endblock --></span></code></pre>
 <div class="note">
 <h4 id="note%3A-2" tabindex="-1">Note:</h4>
 <p>Technically when a layout with a content block is imported but no block is defined, all content becomes part of the content block. I've seen a few people opt to not add content blocks to their pages using a layout, however if just for clarity's sake I'd still add one.</p>
@@ -178,11 +177,10 @@ function myFunction() {
 <h2 id="includes-with-the-include-directive" tabindex="-1">Includes with the include directive</h2>
 <p>Includes allow you to further break up components of your site and can be important if you want to maintain consistency between lots of layouts or if you just want reusable combinations of HTML that you use commonly on your site. We'll be creating includes for our meta tags and navbar by taking advantage of the include directive, which inserts the code contained in the imported file wherever the directive has been placed.</p>
 <p>Firstly we're going to create a new folder in the root of our site named <code>includes</code> and inside of it we'll create <code>meta.html</code> and <code>navbar.html</code>. We'll do <code>navbar.html</code> first as it will be the easiest. Inside of it we can put just the code:</p>
-<pre><code class="language-html">&lt;nav&gt;
-    &lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;
-    &lt;a href=&quot;/pages/blog-posts.html&quot;&gt;Blog posts&lt;/a&gt;
-&lt;/nav&gt;
-</code></pre>
+<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>nav</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Home<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>/pages/blog-posts.html<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Blog posts<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>nav</span><span class="token punctuation">></span></span></code></pre>
 <div class="note">
 <h4 id="note%3A-3" tabindex="-1">Note:</h4>
 <p>As we're be importing this into our base layout, boilerplate isn't needed, just the navbar-specific code.</p>
@@ -191,27 +189,25 @@ function myFunction() {
 <p>For the meta include the process will be much the same. Cut the code in <code>base.html</code> from the head and add it to <code>meta.html</code>, however as we'll want to be able to change our page title specifically for every page, where the <code>&lt;title&gt;</code> tags were we can add <code>&lt;title&gt;&lt;!--# block name=&quot;title&quot; --&gt;My awesome site&lt;!--# endblock --&gt;&lt;/title&gt;</code>. Now &quot;My awesome site&quot; will be the default title, but if we wish to change it we just have to add <code>&lt;!--# block name=&quot;title&quot; --&gt;Unique title&lt;!--# endblock --&gt;</code> to a page with <code>meta.html</code> imported. As I want this includes to be imported in every page with the <code>base.html</code> layout though we'll add <code>&lt;!--# include file=&quot;../includes/meta.html&quot; --&gt;</code> to the head in base.html.</p>
 <p>This is one way to get this functionality but another could be not having title in the meta.html at all and instead having a block inside your <code>&lt;head&gt;</code> tags (e.g. <code>&lt;!-- block name=&quot;head-content&quot;)</code>) and you can then add things to your head on a page-by-page basis. Whether you should make a block specifically for the title or a proper block for the head depends on what you're doing. If you're okay with needing to write <code>&lt;title&gt;</code> every time you make use of the head block, it save you some trouble in the long-run if you ever need to modify your head in a page-specific manner.</p>
 <p>In the end our <code>base.html</code> layout should look something like this:</p>
-<pre><code class="language-html">&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-    &lt;!--# include file=&quot;../includes/meta.html&quot; --&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;!--# include file=&quot;../includes/navbar.html&quot; --&gt;
-    &lt;!--# block name=&quot;content&quot; --&gt;&lt;p&gt;Oops! I must've forgotten to add content to this page!&lt;/p&gt;&lt;!--# endblock --&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+<pre class="language-html"><code class="language-html"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+    <span class="token comment">&lt;!--# include file="../includes/meta.html" --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+    <span class="token comment">&lt;!--# include file="../includes/navbar.html" --></span>
+    <span class="token comment">&lt;!--# block name="content" --></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>Oops! I must've forgotten to add content to this page!<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span><span class="token comment">&lt;!--# endblock --></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span></code></pre>
 <div class="note">
 <h4 id="note%3A-4" tabindex="-1">Note:</h4>
 <p>Using includes in this way won't be all that helpful unless you end up making multiple layouts, however includes are versatile enough to have a fair few use-cases, these are just examples of what you could do with them. They can also be used anywhere, not just in layouts even though we didn't use them outside layouts during this guide. If you're having issues using relative paths for includes you may need to read <a href="#note%3A-6">this</a> note.</p>
 </div>
 <h2 id="displaying-site-stats-with-views%2C-updates-and-followers-directives" tabindex="-1">Displaying site stats with views, updates and followers directives</h2>
 <p>If you're somewhat familiar with Nekoweb's ecosystem you're likely aware of <a href="https://maxpixels.moe/resources/nekoweb-stats/">Max's script</a> to display your site stats, however the SSI also have the capabilities to display view count, update count and follower count. By writing HTML like so:</p>
-<pre><code class="language-html">&lt;p&gt;This site has: &lt;!--# views --&gt; views.&lt;/p&gt;
-&lt;p&gt;This site has been updated &lt;!--# updates --&gt; times &lt;/p&gt;
-&lt;p&gt;This site has: &lt;!--# followers --&gt; followers.&lt;/p&gt;
-</code></pre>
+<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>This site has: <span class="token comment">&lt;!--# views --></span> views.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>This site has been updated <span class="token comment">&lt;!--# updates --></span> times <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">></span></span>This site has: <span class="token comment">&lt;!--# followers --></span> followers.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">></span></span></code></pre>
 <p>Displaying your stats this way has three benefits over the traditional JS approach. Firstly it's (a tiny bit) faster. Secondly it's easier to deal with especially if you aren't familiar with JS. Lastly and by far most importantly, it allows these stats to be displayed to users who have JS disabled, which is more common than you'd expect amongst people who browse the indie-web so it solves that as an accessability concern.</p>
 <div class="note">
 <h4 id="note%3A-5" tabindex="-1">Note:</h4>
@@ -308,49 +304,48 @@ function myFunction() {
 </tbody>
 </table>
 <p>With the actual posts set up properly can use the <code>list</code> directive to automatically generate a list of our blog posts. The list directive returns a JSON array encoded with Base64. The decoded output will look something like:</p>
-<pre><code class="language-json">[
-    {
-        &quot;name&quot;: &quot;_catchall.html&quot;,
-        &quot;isDirectory&quot;: false,
-        &quot;created_time&quot;: 1772911350510,
-        &quot;modified_time&quot;: 1772913735145,
-        &quot;size&quot;: 276,
-        &quot;preview&quot;: &quot;PCEtLSMgbGF5b3V0IGZpbGU9Ii4uL2xheW91dHMvYmFzZS5odG1sIiAtLT4NCjwhLS0jIGJsb2NrIG5hbWU9ImNvbnRlbnQiIC0tPg0KICAgIDwhLS0jIGZsYXN0bW9kIGZpbGU9In4vbW9vc3l1L3Bvc3RzL3t7ZmlsZW5hbWV9fS5tZCIgZm10PSIlWS0lTU0tJWRkIiB0aW1lem9uZT0iVVRDIiAtLT4NCiAgICA8IS0tIyByZW5kZXIgZmlsZT0ifi9tb29zeXUvcG9zdHMve3tmaWxlbmFtZX19Lm1kIiBub3Rmb3VuZD0iUGFnZSBub3QgZm91bmQiIC0tPg==&quot;
-    },
-    {
-        &quot;name&quot;: &quot;post1.md&quot;,
-        &quot;isDirectory&quot;: false,
-        &quot;created_time&quot;: 1772911350510,
-        &quot;modified_time&quot;: 1772911350510,
-        &quot;size&quot;: 42,
-        &quot;preview&quot;: &quot;IyB0aGlzIGlzIHBvc3Qgb25lDQoNCnRoaXMgaXMgc29tZSBjb250ZW50&quot;
-    },
-    {
-        &quot;name&quot;: &quot;post2.md&quot;,
-        &quot;isDirectory&quot;: false,
-        &quot;created_time&quot;: 1772911350510,
-        &quot;modified_time&quot;: 1772911350510,
-        &quot;size&quot;: 45,
-        &quot;preview&quot;: &quot;IyB0aGlzIGlzIHBvc3QgMg0KDQpoZXJlIGlzIHNvbWUgbW9yZSBjb250ZW50&quot;
-    },
-    {
-        &quot;name&quot;: &quot;post3.md&quot;,
-        &quot;isDirectory&quot;: false,
-        &quot;created_time&quot;: 1772911350510,
-        &quot;modified_time&quot;: 1772921846717,
-        &quot;size&quot;: 868,
-        &quot;preview&quot;: &quot;IyB0aGlzIGlzIHBvc3QgMw0KDQpoZXJlIGlzIHNvbWUgbW9yZSBjb250ZW50IGFuZCBiZWxvdyBpcyB0ZXN0aW5nIHdoYXQgcmVuZGVyIGNhbiBkbw0KDQojIEgxDQoNCiMjIEgyDQoNCiMjIyBIMw0KDQoqKmJvbGQgdGV4dCoqDQoNCippdGFsaWNpemVkIHRleHQqDQoNCj4gYmxvY2txdW90ZQ0KDQoxLiBGaXJzdCBpdGVtDQoNCjIuIFNlY29uZCBpdGVtDQoNCjMuIFRoaXJkIGl0ZW0NCg0KLSBGaXJzdCBpdGVtDQoNCi0gU2Vjb25kIGl0ZW0NCg0KLQ==&quot;
-    },
-    {
-        &quot;name&quot;: &quot;post4.md&quot;,
-        &quot;isDirectory&quot;: false,
-        &quot;created_time&quot;: 1772913274699,
-        &quot;modified_time&quot;: 1772913274699,
-        &quot;size&quot;: 0,
-        &quot;preview&quot;: &quot;&quot;
-    }
-]
-
+<pre class="language-json"><code class="language-json"><span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+        <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"_catchall.html"</span><span class="token punctuation">,</span>
+        <span class="token property">"isDirectory"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+        <span class="token property">"created_time"</span><span class="token operator">:</span> <span class="token number">1772911350510</span><span class="token punctuation">,</span>
+        <span class="token property">"modified_time"</span><span class="token operator">:</span> <span class="token number">1772913735145</span><span class="token punctuation">,</span>
+        <span class="token property">"size"</span><span class="token operator">:</span> <span class="token number">276</span><span class="token punctuation">,</span>
+        <span class="token property">"preview"</span><span class="token operator">:</span> <span class="token string">"PCEtLSMgbGF5b3V0IGZpbGU9Ii4uL2xheW91dHMvYmFzZS5odG1sIiAtLT4NCjwhLS0jIGJsb2NrIG5hbWU9ImNvbnRlbnQiIC0tPg0KICAgIDwhLS0jIGZsYXN0bW9kIGZpbGU9In4vbW9vc3l1L3Bvc3RzL3t7ZmlsZW5hbWV9fS5tZCIgZm10PSIlWS0lTU0tJWRkIiB0aW1lem9uZT0iVVRDIiAtLT4NCiAgICA8IS0tIyByZW5kZXIgZmlsZT0ifi9tb29zeXUvcG9zdHMve3tmaWxlbmFtZX19Lm1kIiBub3Rmb3VuZD0iUGFnZSBub3QgZm91bmQiIC0tPg=="</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+        <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"post1.md"</span><span class="token punctuation">,</span>
+        <span class="token property">"isDirectory"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+        <span class="token property">"created_time"</span><span class="token operator">:</span> <span class="token number">1772911350510</span><span class="token punctuation">,</span>
+        <span class="token property">"modified_time"</span><span class="token operator">:</span> <span class="token number">1772911350510</span><span class="token punctuation">,</span>
+        <span class="token property">"size"</span><span class="token operator">:</span> <span class="token number">42</span><span class="token punctuation">,</span>
+        <span class="token property">"preview"</span><span class="token operator">:</span> <span class="token string">"IyB0aGlzIGlzIHBvc3Qgb25lDQoNCnRoaXMgaXMgc29tZSBjb250ZW50"</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+        <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"post2.md"</span><span class="token punctuation">,</span>
+        <span class="token property">"isDirectory"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+        <span class="token property">"created_time"</span><span class="token operator">:</span> <span class="token number">1772911350510</span><span class="token punctuation">,</span>
+        <span class="token property">"modified_time"</span><span class="token operator">:</span> <span class="token number">1772911350510</span><span class="token punctuation">,</span>
+        <span class="token property">"size"</span><span class="token operator">:</span> <span class="token number">45</span><span class="token punctuation">,</span>
+        <span class="token property">"preview"</span><span class="token operator">:</span> <span class="token string">"IyB0aGlzIGlzIHBvc3QgMg0KDQpoZXJlIGlzIHNvbWUgbW9yZSBjb250ZW50"</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+        <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"post3.md"</span><span class="token punctuation">,</span>
+        <span class="token property">"isDirectory"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+        <span class="token property">"created_time"</span><span class="token operator">:</span> <span class="token number">1772911350510</span><span class="token punctuation">,</span>
+        <span class="token property">"modified_time"</span><span class="token operator">:</span> <span class="token number">1772921846717</span><span class="token punctuation">,</span>
+        <span class="token property">"size"</span><span class="token operator">:</span> <span class="token number">868</span><span class="token punctuation">,</span>
+        <span class="token property">"preview"</span><span class="token operator">:</span> <span class="token string">"IyB0aGlzIGlzIHBvc3QgMw0KDQpoZXJlIGlzIHNvbWUgbW9yZSBjb250ZW50IGFuZCBiZWxvdyBpcyB0ZXN0aW5nIHdoYXQgcmVuZGVyIGNhbiBkbw0KDQojIEgxDQoNCiMjIEgyDQoNCiMjIyBIMw0KDQoqKmJvbGQgdGV4dCoqDQoNCippdGFsaWNpemVkIHRleHQqDQoNCj4gYmxvY2txdW90ZQ0KDQoxLiBGaXJzdCBpdGVtDQoNCjIuIFNlY29uZCBpdGVtDQoNCjMuIFRoaXJkIGl0ZW0NCg0KLSBGaXJzdCBpdGVtDQoNCi0gU2Vjb25kIGl0ZW0NCg0KLQ=="</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+        <span class="token property">"name"</span><span class="token operator">:</span> <span class="token string">"post4.md"</span><span class="token punctuation">,</span>
+        <span class="token property">"isDirectory"</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+        <span class="token property">"created_time"</span><span class="token operator">:</span> <span class="token number">1772913274699</span><span class="token punctuation">,</span>
+        <span class="token property">"modified_time"</span><span class="token operator">:</span> <span class="token number">1772913274699</span><span class="token punctuation">,</span>
+        <span class="token property">"size"</span><span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">,</span>
+        <span class="token property">"preview"</span><span class="token operator">:</span> <span class="token string">""</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
 </code></pre>
 <p>The entries contain:</p>
 <ul>
@@ -362,17 +357,16 @@ function myFunction() {
 <li>preview, the first 256 bytes of the file encoded as Base64</li>
 </ul>
 <p>Unfortunately due to how this works we'll need to use JS to display the list contents, fortunately we don't need all that much to make it work. We can create a <code>pages</code> folder in the root of our site and inside create a file named <code>blog-posts.html</code>. After importing the base layout we can add a set of <code>script</code> tags and use the following code to display a list of items in the folder <code>posts</code> (provided you also have an element with the id attribute set to <code>postsList</code>):</p>
-<pre><code class="language-js">const postsList = document.getElementById(&quot;postsList&quot;);
-const posts = JSON.parse(atob('&lt;!--# list dir=&quot;../posts&quot; --&gt;'));
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> postsList <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"postsList"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> posts <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span><span class="token function">atob</span><span class="token punctuation">(</span><span class="token string">'&lt;!--# list dir="../posts" -->'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-posts.filter(post =&gt; !post.isDirectory &amp;&amp; post.name.endsWith(&quot;.md&quot;)).sort((a, b) =&gt; b.modified_time - a.modified_time).forEach(post =&gt; {
-    const baseName = post.name.slice(0, -3);
-    const title = atob(post.preview).match(/^#\s+(.+)/m)?.[1] || baseName;
-    const listItemEl = document.createElement(&quot;li&quot;);
-    listItemEl.innerHTML = `&lt;a href=&quot;/posts/${baseName}.html&quot;&gt;${title}&lt;/a&gt;`;
-    postsList.append(listItemEl);
-});
-</code></pre>
+posts<span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token parameter">post</span> <span class="token operator">=></span> <span class="token operator">!</span>post<span class="token punctuation">.</span>isDirectory <span class="token operator">&amp;&amp;</span> post<span class="token punctuation">.</span>name<span class="token punctuation">.</span><span class="token function">endsWith</span><span class="token punctuation">(</span><span class="token string">".md"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">a<span class="token punctuation">,</span> b</span><span class="token punctuation">)</span> <span class="token operator">=></span> b<span class="token punctuation">.</span>modified_time <span class="token operator">-</span> a<span class="token punctuation">.</span>modified_time<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">post</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> baseName <span class="token operator">=</span> post<span class="token punctuation">.</span>name<span class="token punctuation">.</span><span class="token function">slice</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> title <span class="token operator">=</span> <span class="token function">atob</span><span class="token punctuation">(</span>post<span class="token punctuation">.</span>preview<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">match</span><span class="token punctuation">(</span><span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">^#\s+(.+)</span><span class="token regex-delimiter">/</span><span class="token regex-flags">m</span></span><span class="token punctuation">)</span><span class="token operator">?.</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">||</span> baseName<span class="token punctuation">;</span>
+    <span class="token keyword">const</span> listItemEl <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"li"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    listItemEl<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">&lt;a href="/posts/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>baseName<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">.html"></span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>title<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">&lt;/a></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">;</span>
+    postsList<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>listItemEl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>For the name displayed this script assumes at the start of every post you're doing <code># Post name</code> (though if you're up for it you can change the match accordingly depending on what you're doing). If you aren't or something went wrong and this value can't be found, the name of the file is used instead. The posts are sorted by date modified, however if you'd prefer date created you can just switch uses of <code>modified_time</code> to <code>created_time</code>. Be sure to also change the dir path in the list directive if your file with that script in it is placed somewhere differently to mine. If you want to edit how the list item looks you'll need to change the code the backticks on line 8.</p>
 <p>The final file structure of our project should look something along the lines of:</p>
 <pre><code>├───index.html

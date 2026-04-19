@@ -15,7 +15,7 @@ When creating a website, there are three files you may find inside of your dashb
 prettier.json, a cursor image and a folder which follows the structure USERNAME.nekoweb.org.
 
 **prettier.json** is the configuration for the format button and is what makes it work inside the Nekoweb editor work. below is the default configuration for it:
-```
+```json
 {
     "useTabs": true,
     "tabWidth": 4,
@@ -37,7 +37,7 @@ Inside your website folder by default you will find three more files, these are 
 **elements.css** is used for both your sitebox and your postbox. Your sitebox is the box on the explore page that can be customised to look how you want, while the postbox is the box your posts sit on in [the nekoweb feed](https://nekoweb.org/feed). [Further information on elements.css can be found on it's own page](/getting-around/elements-css)
 
 **index.html** is the main page of your website, when you make the homepage of your site, all the code goes into this file. On nekoweb, all index.html pages are initially created with this structure:
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,7 +73,7 @@ Inside your website folder by default you will find three more files, these are 
 ```
 
 **not_found.html** is the error page of your site, the default structure for this is:
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -40,6 +40,7 @@ o.             ..,:ldxOKXNNWMMMMMMMMMMMMMMMMMMMMMM
   <title>Nekoweb Docs | Getting Around </title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/prism-gruvbox-light.css" />
   <meta name="darkreader-lock" content="">
 
   <!-- FAVICON -->
@@ -141,94 +142,87 @@ function myFunction() {
 <p>As mentioned in the file itself, changing aspects in the sitebox must start with using the class <code>.site-box</code>.  There is a second alternative method to add a follow link to your site, as well. This is by using an a href link to 'https://nekoweb.org/follow/username.nekoweb.org', which will redirect you to a page asking if you would like to follow that user. If you use a custom domain, you should use that in place of the nekoweb subdomain.</p>
 <h2 id="the-preview-screenshot" tabindex="-1">The preview screenshot</h2>
 <p>The default sitebox takes a screenshot of your website to use as a preview, selectable with <code>.site-box .sitefeature</code>. If desired, you can hide this with the following code:</p>
-<pre><code>.site-box .sitefeature {
-    display: none;
-}
-</code></pre>
+<pre class="language-css"><code class="language-css"><span class="token selector">.site-box .sitefeature</span> <span class="token punctuation">{</span>
+    <span class="token property">display</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
 <h2 id="linking-to-images" tabindex="-1">Linking to images</h2>
 <p>You add images to your sitebox by linking to ones on your site, but the URL looks a little funky:</p>
-<pre><code class="language-css">url(&quot;https://USERNAME.nekoweb.org/USERNAME.nekoweb.org/PATH-TO-YOUR-IMAGE.png&quot;)
-</code></pre>
+<pre class="language-css"><code class="language-css"><span class="token url"><span class="token function">url</span><span class="token punctuation">(</span><span class="token string url">"https://USERNAME.nekoweb.org/USERNAME.nekoweb.org/PATH-TO-YOUR-IMAGE.png"</span><span class="token punctuation">)</span></span></code></pre>
 <p>If you instead have a custom domain, change the <i>second</i> domain in the URL:</p>
-<pre><code class="language-css">url(&quot;https://USERNAME.nekoweb.org/YOUR-CUSTOM-DOMAIN/PATH-TO-YOUR-IMAGE.png&quot;)
-</code></pre>
+<pre class="language-css"><code class="language-css"><span class="token url"><span class="token function">url</span><span class="token punctuation">(</span><span class="token string url">"https://USERNAME.nekoweb.org/YOUR-CUSTOM-DOMAIN/PATH-TO-YOUR-IMAGE.png"</span><span class="token punctuation">)</span></span></code></pre>
 <p>(The reason it works like this is because a single account can have multiple websites).</p>
 <h2 id="the-follow-button" tabindex="-1">The follow button</h2>
 <p>There's two different components to the follow button. <code>.follow</code> selects specifically the follow iframe (which can also be used to add a follow button to your site):</p>
-<pre><code class="language-html">&lt;iframe src=&quot;https://nekoweb.org/frame/follow&quot; frameborder=&quot;0&quot; width=&quot;170&quot; height=&quot;28&quot;&gt;&lt;/iframe&gt;
-</code></pre>
+<pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>iframe</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://nekoweb.org/frame/follow<span class="token punctuation">"</span></span> <span class="token attr-name">frameborder</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>0<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>170<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>28<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>iframe</span><span class="token punctuation">></span></span></code></pre>
 <p>Meanwhile, <code>.site-box .follow</code> is used to customise the follow symbol on your sitebox, which is shown as a [+] by default.<br>
 You can instead make it into an image like so:</p>
-<pre><code>.site-box .follow {
-    content: url (&quot;image url&quot;);
-    top: 10px;
-    left: 10px;
-    padding: 0px;
-}
-</code></pre>
+<pre class="language-css"><code class="language-css"><span class="token selector">.site-box .follow</span> <span class="token punctuation">{</span>
+    <span class="token property">content</span><span class="token punctuation">:</span> url <span class="token punctuation">(</span><span class="token string">"image url"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token property">top</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
+    <span class="token property">left</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
+    <span class="token property">padding</span><span class="token punctuation">:</span> 0px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
 <p>The <code>top</code> and <code>left</code> can be used to adjust the placement of the image.</p>
 <h2 id="adding-extra-images" tabindex="-1">Adding extra images</h2>
 <p>Because we cannot modify the HTML to add new elements, you must instead rely on <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Pseudo-elements">pseudo-elements</a> for extra images. Make use of the <code>::before</code> and <code>::after</code> pseudo-elements, and use the <code>content</code> to assign them an image. For example:</p>
-<pre><code class="language-css">.site-box::after {
-    content: url(&quot;image url&quot;);
-    position: absolute;
-    background-size: contain;
-    top: -30px; /* for placement */
-    right: 160px;
-    width: 10px;
-    height: 10px;
-    z-index: 1;
-}
-</code></pre>
+<pre class="language-css"><code class="language-css"><span class="token selector">.site-box::after</span> <span class="token punctuation">{</span>
+    <span class="token property">content</span><span class="token punctuation">:</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span><span class="token string url">"image url"</span><span class="token punctuation">)</span></span><span class="token punctuation">;</span>
+    <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+    <span class="token property">background-size</span><span class="token punctuation">:</span> contain<span class="token punctuation">;</span>
+    <span class="token property">top</span><span class="token punctuation">:</span> -30px<span class="token punctuation">;</span> <span class="token comment">/* for placement */</span>
+    <span class="token property">right</span><span class="token punctuation">:</span> 160px<span class="token punctuation">;</span>
+    <span class="token property">width</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
+    <span class="token property">height</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
+    <span class="token property">z-index</span><span class="token punctuation">:</span> 1<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
 <h1 id="customizing-the-post-box" tabindex="-1">Customizing the post box</h1>
 <p>Work in progress section, refer to the default elements.css for guidance.</p>
 <p>All aspects changing the postbox must start using the class <code>.post-box</code>. For a guide on how to set up an rss feed and thus utilise the postbox, you can see <a href="https://help.joo.sh/rss">Joosh's RSS Tutorial</a>.</p>
 <h1 id="the-default-elements.css" tabindex="-1">The default elements.css</h1>
 <p>For your reference.</p>
-<pre><code>/*
+<pre class="language-css"><code class="language-css"><span class="token comment">/*
     Don't use this file to edit your site style! Create a different CSS file for that.
     This file defines how custom elements (like sitebox) will look like.
     Setting CSS that breaks main nekoweb site on purpose is prohibited and may result in ban and site deletion!
-*/
+*/</span>
 
-/* Must start with &quot;.site-box&quot;. Change how your website will appear on main nekoweb site: https://nekoweb.org/assets/siteboxes.png */
-.site-box {
-    text-align: center;
-    background-image: url(/assets/cookiebox.png); /* Only your-username.nekoweb.org URLs allowed, use FULL url to your file like https://your-username.nekoweb.org/your-username.nekoweb.org/bg.png */
-    background-repeat: no-repeat;
-    color: #b08271;
-    font-size: 12px;
-}
-.site-box &gt; a &gt; p {
-    color: var(--darkbrown);
-    font-weight: bold;
-}
-.site-box &gt; a &gt; span {
-    color: var(--darkbrown);
-}
+<span class="token comment">/* Must start with ".site-box". Change how your website will appear on main nekoweb site: https://nekoweb.org/assets/siteboxes.png */</span>
+<span class="token selector">.site-box</span> <span class="token punctuation">{</span>
+    <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+    <span class="token property">background-image</span><span class="token punctuation">:</span> <span class="token url"><span class="token function">url</span><span class="token punctuation">(</span>/assets/cookiebox.png<span class="token punctuation">)</span></span><span class="token punctuation">;</span> <span class="token comment">/* Only your-username.nekoweb.org URLs allowed, use FULL url to your file like https://your-username.nekoweb.org/your-username.nekoweb.org/bg.png */</span>
+    <span class="token property">background-repeat</span><span class="token punctuation">:</span> no-repeat<span class="token punctuation">;</span>
+    <span class="token property">color</span><span class="token punctuation">:</span> #b08271<span class="token punctuation">;</span>
+    <span class="token property">font-size</span><span class="token punctuation">:</span> 12px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token selector">.site-box > a > p</span> <span class="token punctuation">{</span>
+    <span class="token property">color</span><span class="token punctuation">:</span> <span class="token function">var</span><span class="token punctuation">(</span>--darkbrown<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token property">font-weight</span><span class="token punctuation">:</span> bold<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token selector">.site-box > a > span</span> <span class="token punctuation">{</span>
+    <span class="token property">color</span><span class="token punctuation">:</span> <span class="token function">var</span><span class="token punctuation">(</span>--darkbrown<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-/* Style for your 'Follow on Nekoweb' button (&lt;iframe src=&quot;https://nekoweb.org/frame/follow&quot; frameborder=&quot;0&quot; width=&quot;170&quot; height=&quot;28&quot;&gt;&lt;/iframe&gt;) */
-.follow {
+<span class="token comment">/* Style for your 'Follow on Nekoweb' button (&lt;iframe src="https://nekoweb.org/frame/follow" frameborder="0" width="170" height="28">&lt;/iframe>) */</span>
+<span class="token selector">.follow</span> <span class="token punctuation">{</span>
 
-}
+<span class="token punctuation">}</span>
 
-/* Style for your post box (must start with &quot;.post-box&quot;) */
-.post-box {
-    background-color: #fff2cc;
-    border: 4px solid #ecbfa6;
-    padding: 15px;
-    border-radius: 5px;
-    color: #634c53;
-    font-weight: normal;
-}
+<span class="token comment">/* Style for your post box (must start with ".post-box") */</span>
+<span class="token selector">.post-box</span> <span class="token punctuation">{</span>
+    <span class="token property">background-color</span><span class="token punctuation">:</span> #fff2cc<span class="token punctuation">;</span>
+    <span class="token property">border</span><span class="token punctuation">:</span> 4px solid #ecbfa6<span class="token punctuation">;</span>
+    <span class="token property">padding</span><span class="token punctuation">:</span> 15px<span class="token punctuation">;</span>
+    <span class="token property">border-radius</span><span class="token punctuation">:</span> 5px<span class="token punctuation">;</span>
+    <span class="token property">color</span><span class="token punctuation">:</span> #634c53<span class="token punctuation">;</span>
+    <span class="token property">font-weight</span><span class="token punctuation">:</span> normal<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-.post-box .post-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 10px;
-    margin-bottom: 0px;
-}
-</code></pre>
+<span class="token selector">.post-box .post-title</span> <span class="token punctuation">{</span>
+    <span class="token property">font-size</span><span class="token punctuation">:</span> 18px<span class="token punctuation">;</span>
+    <span class="token property">font-weight</span><span class="token punctuation">:</span> bold<span class="token punctuation">;</span>
+    <span class="token property">margin-top</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
+    <span class="token property">margin-bottom</span><span class="token punctuation">:</span> 0px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
 
 </main>
 </div>

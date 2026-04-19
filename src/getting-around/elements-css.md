@@ -35,7 +35,7 @@ As mentioned in the file itself, changing aspects in the sitebox must start with
 
 ## The preview screenshot
 The default sitebox takes a screenshot of your website to use as a preview, selectable with `.site-box .sitefeature`. If desired, you can hide this with the following code:
-```
+```css
 .site-box .sitefeature {
     display: none;
 }
@@ -61,7 +61,7 @@ There's two different components to the follow button. `.follow` selects specifi
 ```
 Meanwhile, `.site-box .follow` is used to customise the follow symbol on your sitebox, which is shown as a [+] by default.
 You can instead make it into an image like so:
-```
+```css
 .site-box .follow {
     content: url ("image url");
     top: 10px;
@@ -95,7 +95,7 @@ All aspects changing the postbox must start using the class `.post-box`. For a g
 
 # The default elements.css
 For your reference.
-```
+```css
 /*
     Don't use this file to edit your site style! Create a different CSS file for that.
     This file defines how custom elements (like sitebox) will look like.
